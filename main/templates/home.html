@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<div style="text-align:center;">
 
-    <a class="button" href="{% url 'signup' %}">User SignUp</a>
-    <button class="button">Tasker SignUp</button>
-</div>
-   
     <style>
+.center{
+    position:absolute;
+    width:580px;
+    height:220px;
+    left:97%;
+    top:45%;
+    margin-left:-805px;
+    margin-top:-60px;
+}
 .button {
     background-color: #008CBA;  /* Blue */
     border: none;
@@ -59,13 +63,12 @@ button {
   right: 0;
 }
 </style>
-</head>
-<body>
+<div class="center">
 
-<h2>Animated Button</h2>
-
-<button class="button"><span>Hover </span></button>
-
+    <a class="button" href="{% url 'signup' %}"><span>User SignUp</span></a>
+    <button class="button"><span>Tasker SignUp</span></button>
+</div>
+  
 </style>
 
 {% endblock content %}
