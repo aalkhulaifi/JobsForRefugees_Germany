@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import Signup ,Login
+from .forms import Signup ,Login, TaskerSignup
 from django.contrib.auth import login , logout,authenticate
-# Create your views here.
+from .models import Tasker
+from django.contrib import messages
 
 def user_signup(request):
     form = Signup()
@@ -9,12 +10,13 @@ def user_signup(request):
         form = Signup(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            user.username = user.email
 
             user.set_password(user.password)
             user.save()
 
             login(request, user)
-            return redirect("/users/signin/")
+            return redirect("list")
     context = {
         "form":form,
     }
@@ -26,13 +28,13 @@ def user_signin(request):
         form = Login(request.POST)
         if form.is_valid():
 
-            username = form.cleaned_data['username']
+            username = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
             auth_user = authenticate(username=username, password=password)
             if auth_user is not None:
                 login(request, auth_user)
-                return redirect('/users/signin/')
+                return redirect('list')
 
     context = {
         "form":form
@@ -41,4 +43,30 @@ def user_signin(request):
 
 def user_logout(request):
     logout(request)
-    return redirect("/users/signin/")
+    return redirect("signin")
+
+
+def tasker_signup(request):
+    form1 = Signup()
+    form2 = TaskerSignup()
+    if request.method == 'POST':
+        form1 = Signup(request.POST)
+        form2 = TaskerSignup(request.POST, request.FILES)
+        if form1.is_valid() and form2.is_valid():
+            user = form1.save(commit=False)
+            user.username = user.email
+            user.set_password(user.password)
+            user.save()
+            tasker = form2.save(commit=False)
+            tasker.user = user
+            tasker.save()
+            form2.save_m2m()
+            login(request, user)
+            return redirect("list")
+        print (form1.errors)
+        print (form2.errors)
+    context = {
+        "form1":form1,
+        "form2":form2,
+    }
+    return render(request, 'taskersignup.html', context)

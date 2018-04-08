@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+Tasker Sign Up
+{% endblock title %}
+
+
+{% block content %}
+    <form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form1|crispy}}
+        {{form2|crispy}}
+        <input class = "btn btn-outline-success" type="submit" value="Sign Up">
+    </form>
+{% endblock content %}
