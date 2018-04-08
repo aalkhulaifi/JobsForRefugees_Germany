@@ -1,5 +1,8 @@
 <!doctype html>
+{% load static %}
+
 <html lang="en">
+
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,44 +10,25 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
 
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-}
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '/css/login.css' %}">
+    <link rel="stylesheet" href="{% static '/css/user_profile.css' %}">
+    <link rel="stylesheet" href="{% static '/css/user_edit_profile.css' %}"> 
+    <link rel="stylesheet" href="{% static '/css/tasker_profile.css' %}">
+    <link rel="stylesheet" href="{% static '/css/tasker_edit_profile.css' %}">
+    <link rel="stylesheet" href="{% static '/css/signup.css' %}">
+    <link rel="stylesheet" href="{% static '/css/taskersignup.css' %}">
 
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
 
-.topnav a:hover {
-  background-color: #F0F8FF;
-  color: black;
-}
 
-.topnav a.active {
-  background-color: #48D1CC;
-  color: white;
-}
+    <title>{% block title %}
 
-.topnav-right {
-  float: right;
-}
-</style>
+    {% endblock title %}</title>
+
 </head>
 <body>
-
-<div class="topnav">
+  <div class="topnav" >
   <a class="active" href="{%url 'home'%}" <h1>TaskRabbitClone</h1></a>
   <a href="#about">News/About</a>
   <div class="topnav-right">
@@ -60,22 +44,13 @@ body {
 <div style="padding-left:16px">
   
 </div>
-
-    <title>{% block title %}
-
-    {% endblock title %}</title>
-
-  </head>
-
-  <body>
-
     {% block content %}
     	
     {% endblock content %}
    
 
+</body>
 
-</style>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

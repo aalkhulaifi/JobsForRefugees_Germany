@@ -70,3 +70,13 @@ def tasker_signup(request):
         "form2":form2,
     }
     return render(request, 'taskersignup.html', context)
+
+def user_profile(request):
+    return render(request, 'user_profile.html')
+def user_edit_profile(request):
+    return render(request, 'user_edit_profile.html')
+
+def tasker_profile(request):
+    return render(request, 'tasker_profile.html')
+def tasker_edit_profile(request):
+    return render(request, 'tasker_edit_profile.html')
