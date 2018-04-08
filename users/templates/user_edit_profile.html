@@ -7,7 +7,12 @@ Edit Profile
 
 
 {% block content %}
+<form action='{% url 'edit_profile' %}' method='POST'>
+	{% csrf_token %}
+	{{ form.as_p }}
 
+	
+</form>
   
 
 <div class="container" style="padding-top: 60px;">

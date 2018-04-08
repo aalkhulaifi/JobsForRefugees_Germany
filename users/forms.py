@@ -21,3 +21,14 @@ class TaskerSignup(forms.ModelForm):
     class Meta:
         model = Tasker
         exclude = ['user', 'username']
+
+
+class UserEditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name' ,'password']
+
+class TaskerEditProfileForm(forms.ModelForm):
+    class Meta:
+        model = Tasker
+        fields = '__all__'
