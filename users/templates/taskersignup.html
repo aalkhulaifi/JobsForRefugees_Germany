@@ -10,9 +10,14 @@ Tasker Sign Up
 
 <h2 style="text-align:center;">Tasker Signup Form</h2>
 
-<button style="text-align:center;" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
-    <div class="container">
 
+    <div class="container">
+   <form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form1|crispy}}
+        {{form2|crispy}}
+        <input class = "btn btn-outline-success" type="submit" value="Sign Up">
+    </form>
 <div id="id01" class="modal">
   <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
   <form class="modal-content" action="{% url 'taskersignup' %}" method="POST">
@@ -31,10 +36,5 @@ Tasker Sign Up
     </div>
   </form>
 </div>
-    <form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form1|crispy}}
-        {{form2|crispy}}
-        <input class = "btn btn-outline-success" type="submit" value="Sign Up">
-    </form>
+ 
 {% endblock content %}

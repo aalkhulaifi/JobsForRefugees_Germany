@@ -10,14 +10,12 @@ Edit Profile
   <div class="container" >
 
 <div class="center" class="card card-body">
- <form action="{% url 'edit_profile' %}" method="POST">
+ <form action="{% url 'tasker_edit_profile' %}" method="POST">
         {% csrf_token %}
         {{form|crispy}}
-    <button type="submit">Login</button>
+    <button type="submit">Update</button>
     </form>
-        <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
+       
   </div>
 </div>
 

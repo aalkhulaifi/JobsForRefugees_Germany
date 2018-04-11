@@ -4,31 +4,32 @@ from .models import Tasker
 User = get_user_model()
 
 class Signup(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['email', 'first_name', 'last_name' ,'password']
+	class Meta:
+		model = User
+		fields = ['email', 'first_name', 'last_name' ,'password']
 
-        widgets={
-        'password': forms.PasswordInput(),
-        }
+		widgets={
+		'password': forms.PasswordInput(),
+		}
 
 class Login(forms.Form):
-    email = forms.EmailField(required=True)
-    password = forms.CharField(required=True, widget=forms.PasswordInput())
+	email = forms.EmailField(required=True)
+	password = forms.CharField(required=True, widget=forms.PasswordInput())
 
 
 class TaskerSignup(forms.ModelForm):
-    class Meta:
-        model = Tasker
-        exclude = ['user', 'username']
+	class Meta:
+		model = Tasker
+		exclude = ['user', 'username']
 
 
 class UserEditProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['email', 'first_name', 'last_name' ,'password']
+	class Meta:
+		model = User
+		fields = ['email', 'first_name', 'last_name' ,'password','username']
 
 class TaskerEditProfileForm(forms.ModelForm):
-    class Meta:
-        model = Tasker
-        fields = '__all__'
+	user = forms.CharField()
+	class Meta:
+		model = Tasker
+		fields = '__all__'

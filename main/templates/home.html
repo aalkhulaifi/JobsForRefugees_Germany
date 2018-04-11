@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block content %}
+{% load static %}
 
+{% block content %}
     <style>
 .center{
     position:absolute;
@@ -63,6 +64,7 @@ button {
   right: 0;
 }
 </style>
+<br>
 <div class="center">
 
     <a class="button" href="{% url 'signup' %}"><span>User SignUp</span></a>
@@ -70,5 +72,95 @@ button {
 </div>
   
 </style>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- About -->
+    <section id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading text-uppercase">About</h2>
+            <h3 class="section-subheading text-muted">Jobs For Refugees</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <ul class="timeline">
+              <li>
+                <div class="timeline-image">
+                  <img class="rounded-circle img-fluid" src="img/about/1.jpg" alt="">
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-heading">
+                    <h4>How it Works</h4>
+                    <h4 class="subheading">1)</h4>
+                  </div>
+                  <div class="timeline-body">
+                    <p class="text-muted">Describe the task
+                      Choose from a variety of home  services and select the day and time you'd like a the Tasker to show up. Provide the detail in the task decription</p>
+                  </div>
+                </div>
+              </li>
+              <li class="timeline-inverted">
+                <div class="timeline-image">
+                  <img class="rounded-circle img-fluid" src="img/about/2.jpg" alt="">
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-heading">
+                    <h4>2)</h4>
+                    <h4 class="subheading">Get matched</h4>
+                  </div>
+                  <div class="timeline-body">
+                    <p class="text-muted">
+Select from a list of qualified and fully vetted Taskers for the job. Choose Taskers by their hourly rate and start chatting with them right in the app.</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="timeline-image">
+                  <img class="rounded-circle img-fluid" src="img/about/3.jpg" alt="">
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-heading">
+                    <h4>3)</h4>
+                    <h4 class="subheading">Get it done</h4>
+                  </div>
+                  <div class="timeline-body">
+                    <p class="text-muted">Just like that, your Tasker arrives and gets the job done. When your task is complete, payment will happen seamlessly and securely through the app.</p>
+                  </div>
+                </div>
+              </li>
+              
+              <li class="timeline-inverted">
+                <div class="timeline-image">
+                  <h4>Be Part
+                    <br>Of Our
+                    <br>Story!</h4>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
 {% endblock content %}
