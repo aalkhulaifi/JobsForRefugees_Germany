@@ -3,7 +3,13 @@ from django.shortcuts import render
 from django.utils import timezone
 
 def home(request):
-	return render(request, 'home.html')
+	context = {
+		"category_list": Category.objects.all()
+	}
+	return render(request, 'home.html', context)
+
+def about(request):
+	return render(request, 'about.html')
 
 def category_list(request):
 	today = timezone.now().date()

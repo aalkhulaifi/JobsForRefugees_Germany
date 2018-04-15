@@ -5,6 +5,9 @@ from django.contrib.auth import login , logout,authenticate
 from .models import Tasker, User
 from django.contrib import messages
 
+def registration_path(request):
+	return render(request, 'register.html')
+
 def user_signup(request):
 	form = Signup()
 	if request.method == 'POST':
@@ -73,37 +76,43 @@ def tasker_signup(request):
 	}
 	return render(request, 'taskersignup.html', context)
 
-def user_profile(request, pk):
+def user_profile(request):
 	if request.user.is_anonymous:
 		return redirect('signin')
-
 	return render(request, 'user_profile.html')
 
-
 def user_edit_profile(request):
-	form = UserEditProfileForm(request.POST or None)
+	if request.user.is_tasker:
+		raise Http404
+	form = UserEditProfileForm(request.POST or None, instance=request.user)
 	if form.is_valid():
 		form.save()
-		return redirect('user_profile')
+		return redirect('profile')
 	context = {
 		"form":form,
 	   
 	}
 	return render(request, 'user_edit_profile.html', context)
 
-def tasker_profile(request, pk):
-	if request.user.is_anonymous:
-		return redirect('signin')
-	return render(request, 'tasker_profile.html')
-
 
 def tasker_edit_profile(request):
-	form = TaskerEditProfileForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('tasker_profile')
+	if not request.user.is_tasker:
+		raise Http404
+	if request.method == 'POST':
+		form1 = UserEditProfileForm(request.POST, instance=request.user)
+		form2 = TaskerEditProfileForm(request.POST, instance=request.user.tasker)
+		if form1.is_valid() and form2.is_valid():
+			form1.save()
+			form2.save()
+			return redirect('profile')
+		else:
+			messages.error(request, ('Please correct the error below.'))
+	else:
+		form1 = UserEditProfileForm(instance=request.user)
+		form2 = TaskerEditProfileForm(instance=request.user.tasker)
 	context = {
-		"form":form,
+		"form1":form1,
+		"form2":form2,
 	   
 	}
-	return render(request, 'tasker_edit_profile.html', context)
+	return render(request, 'tasker_edit_profile.html',context)

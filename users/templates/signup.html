@@ -1,46 +1,17 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
-Sign Up
+Register
 {% endblock title %}
 
 
 {% block content %}
-
-<h2 style="text-align:center;">User Signup Form</h2>
-
-<button style="text-align:center;" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
-    <div class="container">
-
-<div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-  <form class="modal-content" action="{% url 'signup' %}" method="POST">
-        {% csrf_token %}
-        {{form|crispy}}
-      
-        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-      </label>
-
-
-      <div class="clearfix">
-        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-        <button type="submit" class="signupbtn">Sign Up</button>
-
-      </div>
-    </div>
+  <br>
+  <h4 style="text-align:center;">Register Form</h4>
+  <form action="{% url 'signup' %}" method="POST">
+      {% csrf_token %}
+      {{form|crispy}}
+      <input class = "btn btn-outline-info" type="submit" value="Register">
   </form>
-</div>
-<script>
-// Get the modal
-var modal = document.getElementById('id01');
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
-
-    
 {% endblock content %}

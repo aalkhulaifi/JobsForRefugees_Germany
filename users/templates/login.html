@@ -2,21 +2,31 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-Sign In
+Login
 {% endblock title %}
 
 
 {% block content %}
-<div class="container" >
-	<div class="card center">
-		<form action="{% url 'signin' %}" method="POST">
-			{% csrf_token %}
-			{{form|crispy}}
-			<button type="submit">Login</button>
-		</form>
-	</div>
-</div>
+<br>
+<h4>Login</h4>
+<form action="{% url 'signin' %}" method="POST">
+	{% csrf_token %}
+	{{form|crispy}}
+	<button type="submit" class="btn btn-outline-info">Login</button>
+</form>
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 {% endblock content %}

@@ -12,13 +12,12 @@ Edit Profile
 <div class="center" class="card card-body">
  <form action="{% url 'tasker_edit_profile' %}" method="POST">
         {% csrf_token %}
-        {{form|crispy}}
+        {{form1|crispy}}
+        {{form2|crispy}}
     <button type="submit">Update</button>
     </form>
-       
   </div>
 </div>
-
 
 
 {% endblock content %}

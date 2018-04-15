@@ -2,39 +2,19 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
-Tasker Sign Up
+Tasker Register
 {% endblock title %}
 
 
 {% block content %}
 
-<h2 style="text-align:center;">Tasker Signup Form</h2>
-
-
-    <div class="container">
-   <form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form1|crispy}}
-        {{form2|crispy}}
-        <input class = "btn btn-outline-success" type="submit" value="Sign Up">
-    </form>
-<div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-  <form class="modal-content" action="{% url 'taskersignup' %}" method="POST">
-        {% csrf_token %}
-        {{form|crispy}}
-      
-        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-      </label>
-
-
-      <div class="clearfix">
-        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-        <button type="submit" class="signupbtn">Sign Up</button>
-
-      </div>
-    </div>
-  </form>
-</div>
+<br>
+<h4 style="text-align:center;">Tasker Register Form</h4>
+<form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form1|crispy}}
+    {{form2|crispy}}
+    <input class = "btn btn-outline-info" type="submit" value="Register">
+</form>
  
 {% endblock content %}

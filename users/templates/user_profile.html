@@ -1,121 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+
 {% block content %}
-
-	
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<div class="container">
-			<h2>Profile</h2>
-
-	<div class="row">
-
-
+<br>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      {% if user.is_tasker %}
+        <img class="card-img-top img-fluid" src="{{user.tasker.profile_picture.url}}" alt="Card image cap">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{user.username}}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">First Name: {{user.first_name}}</li>
+        <li class="list-group-item">Last Name: {{user.last_name}}</li>
+        <li class="list-group-item">Email: {{user.email}}</li>
+        <li class="list-group-item">Last Name: {{user.last_name}}</li>
+      </ul>
+      <div class="card-body">
+        {% if request.user.is_tasker %}
+          <a href="{% url 'tasker_edit_profile' %}" class="btn btn-outline-info btn-block">Edit profile</a>
+        {% else %}
+          <a href="{% url 'edit_profile' %}" class="btn btn-outline-info btn-block">Edit profile</a>
+        {% endif %}
         
-      
-       <div class="col-md-7 ">
-
-<div class="panel panel-default">
-  <div class="panel-heading">  <h4 >User Profile</h4></div>	<a href="{% url 'edit_profile' %}">| Edit Profile |</a>
-	<br>
-
-   <div class="panel-body">
-       
-    <div class="box box-info">
-        
-            <div class="box-body">
-                     <div class="col-sm-6">
-                     <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
-                
-                <input id="profile-image-upload" class="hidden" type="file">
-<div style="color:#999;" >click here to change profile image</div>
-                <!--Upload Image Js And Css-->
-           
-              
-   
-                
-                
-                     
-                     
-                     </div>
-              
-              <br>
-    
-              <!-- /input-group -->
-            </div>
-            <div class="col-sm-6">
-            <h4 style="color:#00b1b1;">{{user.user}} </h4></span>
-              <span><p></p></span>            
-            </div>
-            <div class="clearfix"></div>
-            <hr style="margin:5px 0 5px 0;">
-    
-              
-<div class="col-sm-5 col-xs-6 tital " >First Name:{{user.first_name}}</div><div class="col-sm-7 col-xs-6 "></div>
-     <div class="clearfix"></div>
-<div class="bot-border"></div>
-
-<div class="col-sm-5 col-xs-6 tital " >Last Name:{{user.last_name}}</div><div class="col-sm-7"> </div>
-  <div class="clearfix"></div>
-<div class="bot-border"></div>
-
-<div class="col-sm-5 col-xs-6 tital " >Date Of Joining:{{user.date_joined}}</div><div class="col-sm-7"></div>
-
-  <div class="clearfix"></div>
-<div class="bot-border"></div>
-
-<div class="col-sm-5 col-xs-6 tital " >Email:{{user.email}}</div><div class="col-sm-7"></div>
-
-  <div class="clearfix"></div>
-<div class="bot-border"></div>
-
-
-
- <div class="clearfix"></div>
-<div class="bot-border"></div>
-
-
-
- <div class="clearfix"></div>
-<div class="bot-border"></div>
-
-
-
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
-        </div>
-       
-            
-    </div> 
+      </div>
     </div>
-</div>  
-    <script>
-              $(function() {
-    $('#profile-image1').on('click', function() {
-        $('#profile-image-upload').click();
-    });
-});       
-              </script> 
-       
-       
-       
-       
-       
-       
-       
-       
-       
-   </div>
+  </div>
 </div>
 
 
-
-
-         
 {% endblock content %}
