@@ -18,7 +18,3 @@ class Tasker(models.Model):
 
 	def __str__(self):
 		return self.user.get_full_name()
-
-class Profile(models.Model):
-	general_handyman = models.ForeignKey(Tasker, on_delete=models.CASCADE)
-	is_general_handyman = models.BooleanField(default=False)

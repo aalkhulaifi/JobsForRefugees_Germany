@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+        <img class="card-img-top img-fluid" src="{{user.tasker.profile_picture.url}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{user.username}}</h5>
+      </div>
+      {% for user in taskers %}
+	<li>{{user.user}}</li>
+	<li>{{user.email}}</li>
+	<li>{{user.profession}}</li>
+	<li>{{user.rate}}</li>
+	<li>{{user.areas}}</li>
+{% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

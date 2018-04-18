@@ -20,7 +20,7 @@ def user_signup(request):
 			user.save()
 
 			login(request, user)
-			return redirect("list")
+			return redirect("home")
 	context = {
 		"form":form,
 	}
@@ -38,7 +38,7 @@ def user_signin(request):
 			auth_user = authenticate(username=username, password=password)
 			if auth_user is not None:
 				login(request, auth_user)
-				return redirect('list')
+				return redirect('home')
 
 	context = {
 		"form":form
@@ -67,7 +67,7 @@ def tasker_signup(request):
 			tasker.save()
 			form2.save_m2m()
 			login(request, user)
-			return redirect("list")
+			return redirect("home")
 		print (form1.errors)
 		print (form2.errors)
 	context = {
