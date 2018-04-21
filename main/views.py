@@ -6,18 +6,21 @@ from main.models import Area
 from django.db.models import Q
 
 def area_list(request):
-    areas = Area.objects.all()
-    query = request.GET.get("q")
-    if query:
-        areas = areas.filter(
-            Q(name__icontains=query)
-            
-            ).distinct()
+	areas = Area.objects.all()
+	# taskers = area.tasker.all()
+	query = request.GET.get("q")
+	if query:
+		areas = areas.filter(
+			name__icontains=query
+			
+			).distinct()
 
-    context = {
-        "area": areas,
-    }
-    return render(request, 'home.html', context)
+	context = {
+		"areas": areas,
+		# "tasker": tasker,
+
+	}
+	return render(request, 'area.html', context)
 def home(request):
 	context = {
 		"category_list": Category.objects.all(),
@@ -36,12 +39,12 @@ def category_detail(request, category_id):
 	return render(request, 'tasker_profile_detail.html', context)
 
 def tasker_profile_detail(request, tasker_id):
-	tasker_profile = Category.objects.get(id=tasker_id)
+	# tasker_profile = Category.objects.get(id=tasker_id)
 	tasker = Tasker.objects.get(id=tasker_id)
-	profiles = tasker_profile.tasker_set.all()
+	# profiles = tasker_profile.tasker_set.all()
 
 	context = {
-		"profiles": profiles,
+		# "profiles": profiles,
 		"tasker": tasker,
 	}
 	return render(request, 'category_detail.html', context)
