@@ -31,7 +31,7 @@ button {
 }
 
 
-	    		 
+	    		  {% for tasker in taskers %}
 </style>
 
 <br>
@@ -42,15 +42,14 @@ button {
   <h3>{{tasker.user}}</h3>
   <p class="title">Profession:{{tasker.profession}}</p>
   <p>Rate:{{tasker.rate}}</p>
-  <p>Skills: {{ tasker.categories }}</p>  
-  <p>Age: {{ tasker.age }}</p>
+  <p>Skills: {{ tasker.categories }}</p>
   <p>Areas:{{tasker.areas}}</p>
-  <p>Phone number:{{tasker.number}}</p>
-  <p><a href="{% url 'tasker_profile_detail' tasker.id %}">Detail</a></p>
+  <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
 
 </div>
 </style>
 </div>
 </style>
+	{% endfor %}
 <br>
 {% endblock content %}

@@ -23,9 +23,11 @@
   <div class="card-item">
   <div class="row py-5 justify-content-center text-center align-items-center">
 
- <form class="form-inline">
+ <form action="{% url 'list-view' %}" class="form-inline" method="GET">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+      <button class="btn btn-outline-info my-2 my-sm-0" type="submit" value="{{request.GET.q}}">Search</button>
+      
+      {{area}}
     </form>
 </div>
 </div>
@@ -33,4 +35,6 @@
 </div>
 </div>
 </div>
+    {% include "Refugeesmap.html" %}
+
 {% endblock content %}

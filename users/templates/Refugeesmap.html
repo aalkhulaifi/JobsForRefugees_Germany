@@ -1,0 +1,402 @@
+<html>
+<head>
+  <title>refugee map</title>
+</head>
+<body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.8/datamaps.world.min.js"></script>
+  <script>
+
+  $(document).ready(function() {
+
+    function Zoom(args) {
+      $.extend(this, {
+        $buttons:   $(".zoom-button"),
+        $info:      $("#zoom-info"),
+        scale:      { max: 50, currentShift: 0 },
+        $container: args.$container,
+        datamap:    args.datamap
+      });
+
+      this.init();
+    }
+
+    Zoom.prototype.init = function() {
+      var paths = this.datamap.svg.selectAll("path"),
+          subunits = this.datamap.svg.selectAll(".datamaps-subunit");
+
+      // preserve stroke thickness
+      paths.style("vector-effect", "non-scaling-stroke");
+
+      // disable click on drag end
+      subunits.call(
+        d3.behavior.drag().on("dragend", function() {
+          d3.event.sourceEvent.stopPropagation();
+        })
+      );
+
+      this.scale.set = this._getScalesArray();
+      this.d3Zoom = d3.behavior.zoom().scaleExtent([ 1, this.scale.max ]);
+
+      this._displayPercentage(1);
+      this.listen();
+    };
+
+    Zoom.prototype.listen = function() {
+      this.$buttons.off("click").on("click", this._handleClick.bind(this));
+
+      this.datamap.svg
+        .call(this.d3Zoom.on("zoom", this._handleScroll.bind(this)))
+        .on("dblclick.zoom", null); // disable zoom on double-click
+    };
+
+    Zoom.prototype.reset = function() {
+      this._shift("reset");
+    };
+
+    Zoom.prototype._handleScroll = function() {
+      var translate = d3.event.translate,
+          scale = d3.event.scale,
+          limited = this._bound(translate, scale);
+
+      this.scrolled = true;
+
+      this._update(limited.translate, limited.scale);
+    };
+
+    Zoom.prototype._handleClick = function(event) {
+      var direction = $(event.target).data("zoom");
+
+      this._shift(direction);
+    };
+
+    Zoom.prototype._shift = function(direction) {
+      var center = [ this.$container.width() / 2, this.$container.height() / 2 ],
+          translate = this.d3Zoom.translate(), translate0 = [], l = [],
+          view = {
+            x: translate[0],
+            y: translate[1],
+            k: this.d3Zoom.scale()
+          }, bounded;
+
+      translate0 = [
+        (center[0] - view.x) / view.k,
+        (center[1] - view.y) / view.k
+      ];
+
+    	if (direction == "reset") {
+      	view.k = 1;
+        this.scrolled = true;
+      } else {
+      	view.k = this._getNextScale(direction);
+      }
+
+    l = [ translate0[0] * view.k + view.x, translate0[1] * view.k + view.y ];
+
+      view.x += center[0] - l[0];
+      view.y += center[1] - l[1];
+
+      bounded = this._bound([ view.x, view.y ], view.k);
+
+      this._animate(bounded.translate, bounded.scale);
+    };
+
+    Zoom.prototype._bound = function(translate, scale) {
+      var width = this.$container.width(),
+          height = this.$container.height();
+
+      translate[0] = Math.min(
+        (width / height)  * (scale - 1),
+        Math.max( width * (1 - scale), translate[0] )
+      );
+
+      translate[1] = Math.min(0, Math.max(height * (1 - scale), translate[1]));
+
+      return { translate: translate, scale: scale };
+    };
+
+    Zoom.prototype._update = function(translate, scale) {
+      this.d3Zoom
+        .translate(translate)
+        .scale(scale);
+
+      this.datamap.svg.selectAll("g")
+        .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+      this._displayPercentage(scale);
+    };
+
+    Zoom.prototype._animate = function(translate, scale) {
+      var _this = this,
+          d3Zoom = this.d3Zoom;
+
+      d3.transition().duration(350).tween("zoom", function() {
+        var iTranslate = d3.interpolate(d3Zoom.translate(), translate),
+            iScale = d3.interpolate(d3Zoom.scale(), scale);
+
+    		return function(t) {
+          _this._update(iTranslate(t), iScale(t));
+        };
+      });
+    };
+
+    Zoom.prototype._displayPercentage = function(scale) {
+      var value;
+
+      value = Math.round(Math.log(scale) / Math.log(this.scale.max) * 100);
+      this.$info.text(value + "%");
+    };
+
+    Zoom.prototype._getScalesArray = function() {
+      var array = [],
+          scaleMaxLog = Math.log(this.scale.max);
+
+      for (var i = 0; i <= 10; i++) {
+        array.push(Math.pow(Math.E, 0.1 * i * scaleMaxLog));
+      }
+
+      return array;
+    };
+
+    Zoom.prototype._getNextScale = function(direction) {
+      var scaleSet = this.scale.set,
+          currentScale = this.d3Zoom.scale(),
+          lastShift = scaleSet.length - 1,
+          shift, temp = [];
+
+      if (this.scrolled) {
+
+        for (shift = 0; shift <= lastShift; shift++) {
+          temp.push(Math.abs(scaleSet[shift] - currentScale));
+        }
+
+        shift = temp.indexOf(Math.min.apply(null, temp));
+
+        if (currentScale >= scaleSet[shift] && shift < lastShift) {
+          shift++;
+        }
+
+        if (direction == "out" && shift > 0) {
+          shift--;
+        }
+
+        this.scrolled = false;
+
+      } else {
+
+        shift = this.scale.currentShift;
+
+        if (direction == "out") {
+          shift > 0 && shift--;
+        } else {
+          shift < lastShift && shift++;
+        }
+      }
+
+      this.scale.currentShift = shift;
+
+      return scaleSet[shift];
+    };
+
+    function Datamap() {
+    	this.$container = $("#container");
+    	this.instance = new Datamaps({
+        scope: 'world',
+        element: this.$container.get(0),
+        projection: 'mercator',
+        setProjection: function(element) {
+
+    var projection = d3.geo.mercator()
+      .center([30, 20])
+      .scale(element.offsetWidth / element.offsetHeight * 75)
+      .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+    var path = d3.geo.path()
+      .projection(projection);
+
+    return {path: path, projection: projection};
+  },
+        geographyConfig: {
+          highlightOnHover: false,
+          popupOnHover: false,
+          borderColor: '#bfbfb6'
+        },
+        fills: {
+          defaultFill: '#ddddd2',
+          
+        },
+        bubblesConfig: {
+          borderWidth: 1,
+          borderColor: '#fff',
+          fillOpacity: .3,
+          highlightFillColor: '#FF1D34',
+          highlightFillOpcacity: .75,
+          highlightBorderColor: '#FF1D34',
+        },
+        data: {
+          'USA': { fillKey: "World's wealthiest economies" },
+          'FRA': { fillKey: "World's wealthiest economies" },
+          'DEU': { fillKey: "World's wealthiest economies" },
+          'CHN': { fillKey: "World's wealthiest economies" },
+          'GBR': { fillKey: "World's wealthiest economies" },
+          'JPN': { fillKey: "World's wealthiest economies" },
+          'TUR': { fillKey: 'Top refugee hosting countries' },
+          'PAK': { fillKey: 'Top refugee hosting countries' },
+          'LBN': { fillKey: 'Top refugee hosting countries' },
+          'IRN': { fillKey: 'Top refugee hosting countries' },
+          'UGA': { fillKey: 'Top refugee hosting countries' },
+          'ETH': { fillKey: 'Top refugee hosting countries' },
+
+        },
+        done: this._handleMapReady.bind(this)
+    	});
+      this.instance.legend();
+
+      this.bubbleData = [
+        
+        {
+          centered: 'DEU',
+          fillKey: 'Number of refugees hosted',
+          radius: '9',
+          country: 'Germany',
+          refugees: '669,482',
+          asylums: '587,346',
+          description: 'Germany has not traditionally been a major resettlement country, but it has received a very large number of Syrian refugees as spontaneous arrivals since 2015. In 2016, it was the <strong>1st largest recipient of asylum claims</strong>. With 43,570 refugees resettled in 2016, the country has <strong>welcomed 118 percent of its fair share</strong>. It also implements integration policies, such as job-related language courses.'
+        },
+
+      ];
+
+    }
+
+    Datamap.prototype._handleMapReady = function(datamap) {
+    	this.zoom = new Zoom({
+      	$container: this.$container,
+      	datamap: datamap
+      });
+    };
+
+    var map = new Datamap();
+    map.instance.bubbles(map.bubbleData, {
+      popupTemplate: function (geo, data) {
+        return `<div class="hoverinfo"><h1>${data.country}</h1><div class="data"><span class="label">Refugees:</span><span class="value">${data.refugees}</span></div><div class="data"><span class="label">Asylum seekers:</span><span class="value">${data.asylums}</span></div><p>${data.description}</p></div>`;
+      }
+    });
+  });
+  </script>
+
+    <div style="position: relative; width: 100%; padding-top: 56.25%;">
+      <div id="container" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;"></div>
+      <div class="zoom"><button class="zoom-button" data-zoom="reset" id="zoom-reset">0</button><button class="zoom-button" data-zoom="in">+</button><button class="zoom-button" data-zoom="out">-</button><div id="zoom-info"></div></div>
+    </div>
+    <p class="source">Source: UNHCR</p>
+
+    <style type="text/css">
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #container {
+        background: #fafaed;
+      }
+      .hoverinfo {
+        max-width: 40em;
+        padding: 1.3em;
+        color: #545454;
+        border: 0px none;
+        border-bottom: 3px #cbc8be solid;
+        box-shadow: none;
+        background: rgba(255, 255, 255, .9);
+        font-size: .75em;
+        font-weight: normal;
+      }
+      .hoverinfo h1 {
+        color: #0C884A;
+        font-size: 1.5em;
+        font-weight: bold;
+        padding: 0 0 .5em 0;
+        margin: 0;
+      }
+      .hoverinfo p {
+        padding: 0;
+        margin: 1em 0 0 0;
+      }
+
+      .data {
+        display: block;
+        width: 100%;
+      }
+      .data .label {
+        font-weight: bold;
+        color: #333;
+        text-align: left;
+      }
+      .data .value {
+        display: inline-block;
+        padding-left: .5em;
+      }
+
+      .datamaps-legend {
+        position: absolute;
+        bottom: 1em;
+        left: 1em;
+        padding: 1em;
+        padding-top: 0em;
+        background: rgba(255, 255, 255, .75);
+        border-radius: .5em;
+      }
+
+      .datamaps-legend dl {
+        margin: .5em 0;
+      }
+
+      .datamaps-legend dt {
+        clear: left;
+      }
+      .datamaps-legend dt, .datamaps-legend dd {
+        margin-top: .3em;
+     }
+
+      .datamaps-bubble:hover{
+        cursor: pointer;
+      }
+
+      .zoom {
+        position: absolute;
+        bottom: .8em;
+        right: 1em;
+        padding: .75em 1em;
+        background: rgba(255, 255, 255, .75);
+        border-radius: .5em;
+      }
+
+      .zoom button {
+        display: block;
+        clear: both;
+        width: 2.5em;
+        background: #cbc8be;
+        border: 0px none;
+        border-bottom: 1px #ababa2 solid;
+        margin: .25em 0;
+        padding: .25em;
+        font-weight: bold;
+        color: #545454;
+      }
+
+      .zoom #zoom-info, .zoom #zoom-reset {
+        display: none;
+      }
+
+      .source {
+        text-align: right;
+        font-size: .7rem;
+        color: #a2a29a;
+        margin: .5em 0 1em 0;
+      }
+    </style>
+
+</body>
+</html>
