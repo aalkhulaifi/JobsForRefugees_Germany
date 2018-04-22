@@ -1,4 +1,4 @@
- 
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'home' %}">Task Rabbit</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,33 +32,10 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'signin' %}">Login</a>
         </li>
-<ul class="nav navbar-nav navbar-toggler-right">
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Login <span class="glyphicon glyphicon-log-in"></span></a>
-          <div class="dropdown-menu">
-            <form id="formLogin" class="form container-fluid">
-              <div class="form-group">
-                <label for="usr">Name:</label>
-                <input type="text" class="form-control" id="usr">
-              </div>
-              <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="pwd">
-              </div>
-              <button type="button" id="btnLogin" class="btn btn-block">Login</button>
-            </form>
-            <div class="container-fluid">
-              <br>
-              <a class="small" href="#">Forgot password?</a>
-            </div> 
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+
       {% endif %}
     </ul>
    
- 
 </div>
   </div>
 
