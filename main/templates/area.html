@@ -30,11 +30,11 @@ button {
     font-size: 18px;
 }
 
-
+</style>
 
             {% for area in areas %}
             {% for tasker in area.tasker_set.all%}
-</style>
+
 
 <br>
 
@@ -44,8 +44,8 @@ button {
   <h3>{{tasker.user}}</h3>
   <p class="title">Profession:{{tasker.profession}}</p>
   <p>Rate:{{tasker.rate}}</p>
-  <p>Skills: {{ tasker.categories }}</p>
-  <p>areas:{{tasker.areas}}</p>
+  <p>Skills: {% for skill in tasker.categories.all %} -{{skill}}{% endfor %}</p>
+  <p>areas:{% for area in tasker.areas.all %} -{{area}}{% endfor %}</p>
   <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
 
 </div>

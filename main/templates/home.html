@@ -1,40 +1,61 @@
 {% extends "base.html" %}
-{% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<div class="text-center py-5">
-    <div class="row">
 
-<div class="container-fluid h100">
-    <div class="card">
-  <div class="row py-5 justify-content-center text-center align-items-center">
-    {% for category in category_list %}
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3 my-3 mx-auto">
-        <a href="{% url 'category_detail' category.id %}" class="btn btn-outline-info btn-lg">
-        {{category}}
-        </a>
-     </div> 
-     
-    {% endfor %}
-</div>
-  </div>
-  <br>
+<form action="{% url 'home'%}" >
+  {{form|crispy}}
+  
+  <input type="submit" class="btn btn-outline-info" value='Search'>
+</form>
 
-  <div class="card-item">
-  <div class="row py-5 justify-content-center text-center align-items-center">
+<style type="text/css">
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+}
 
- <form action="{% url 'list-view' %}" class="form-inline" method="GET">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
-      <button class="btn btn-outline-info my-2 my-sm-0" type="submit" value="{{request.GET.q}}">Search</button>
+.title {
+    color: grey;
+    font-size: 18px;
+}
 
+button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
 
-<br>    </form>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-    {% include "Refugeesmap.html" %}
+ {% for area in areas %}
+            {% for tasker in taskers %}
+</style>
 
+<br>
+
+<div class="card">
+
+  <img src="{{tasker.profile_picture.url}}" alt="" style="width:100%">
+  <h3>{{tasker.user}}</h3>
+  <p class="title">Profession:{{tasker.profession}}</p>
+  <p>Rate:{{tasker.rate}}</p>
+   <p>Skills: {% for skill in tasker.categories.all %} -{{skill}}{% endfor %}</p>
+  <p>areas:{% for area in tasker.areas.all %} -{{area}}{% endfor %}</p>
+  <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
+
+</div>
+</style>
+</div>
+</style>
+  {% endfor %}
+  {% endfor %}
+<br>
 {% endblock content %}

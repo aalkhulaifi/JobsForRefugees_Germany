@@ -1,9 +1,11 @@
 from .models import Category
 from users.models import Tasker
+from .forms import TaskerSearch
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from main.models import Area
 from django.db.models import Q
+from users.models import Tasker
 
 def area_list(request):
 	areas = Area.objects.all()
@@ -22,8 +24,20 @@ def area_list(request):
 	}
 	return render(request, 'area.html', context)
 def home(request):
+	form = TaskerSearch()
+	taskers = Tasker.objects.none()
+	categories = request.GET.get('categories')
+	areas = request.GET.get('areas')
+	if categories and areas:
+		taskers = Tasker.objects.filter(
+			categories__id=categories,
+			areas__id=areas
+			)		
 	context = {
-		"category_list": Category.objects.all(),
+		"taskers": taskers,
+		"categories": categories,
+		"areas": areas,
+		"form": form,
 	}
 	return render(request, 'home.html', context)
 
@@ -39,13 +53,20 @@ def category_detail(request, category_id):
 	return render(request, 'tasker_profile_detail.html', context)
 
 def tasker_profile_detail(request, tasker_id):
-	# tasker_profile = Category.objects.get(id=tasker_id)
-	tasker = Tasker.objects.get(id=tasker_id)
-	# profiles = tasker_profile.tasker_set.all()
+	# # tasker_profile = Category.objects.get(id=tasker_id)
+	taskers = Tasker.objects.get(id=tasker_id)
+	# # profiles = tasker_profile.tasker_set.all()
 
+	# context = {
+	# 	# "profiles": profiles,
+	# 	"tasker": tasker,
+	# }
+	taskers = Tasker.objects.none()
+	areas = Area.objects.all()
+		
 	context = {
-		# "profiles": profiles,
-		"tasker": tasker,
+		"taskers": taskers,
+		"areas": areas,
 	}
 	return render(request, 'category_detail.html', context)
 
