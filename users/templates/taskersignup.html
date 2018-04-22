@@ -10,11 +10,11 @@ Tasker Register
 
 <br>
 <h4 style="text-align:center;">Tasker Register Form</h4>
-<form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form1|crispy}}
-    {{form2|crispy}}
-    <input class = "btn btn-outline-info" type="submit" value="Register">
-</form>
+	<form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
+	    {% csrf_token %}
+	    {{form1|crispy}}
+	    {{form2|crispy}}
+	    <input class = "btn btn-outline-info" type="submit" value="Register">
+	</form>
  
 {% endblock content %}

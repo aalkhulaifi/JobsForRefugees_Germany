@@ -32,15 +32,34 @@ def home(request):
 		taskers = Tasker.objects.filter(
 			categories__id=categories,
 			areas__id=areas
-			)		
+			)
+		
 	context = {
 		"taskers": taskers,
 		"categories": categories,
 		"areas": areas,
 		"form": form,
 	}
-	return render(request, 'home.html', context)
 
+	return render(request, 'home.html', context)
+def list(request):
+	form = TaskerSearch()
+	taskers = Tasker.objects.none()
+	categories = request.GET.get('categories')
+	areas = request.GET.get('areas')
+	if categories and areas:
+		taskers = Tasker.objects.filter(
+			categories__id=categories,
+			areas__id=areas
+			)
+		
+	context = {
+		"taskers": taskers,
+		"categories": categories,
+		"areas": areas,
+		"form": form,
+	}
+	return render(request, 'list.html', context)
 def about(request):
 	return render(request, 'about.html')
 

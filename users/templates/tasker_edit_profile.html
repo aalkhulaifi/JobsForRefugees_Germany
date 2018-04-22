@@ -5,19 +5,15 @@
 Edit Profile
 {% endblock title %}
 
-
 {% block content %}
-  <div class="container" >
-
-<div class="center" class="card card-body">
- <form action="{% url 'tasker_edit_profile' %}" method="POST">
-        {% csrf_token %}
-        {{form1|crispy}}
-        {{form2|crispy}}
-    <button type="submit">Update</button>
-    </form>
-  </div>
+<div class="container" >
+	<div class="center" class="card card-body">
+		 <form action="{% url 'tasker_edit_profile' %}" method="POST">
+	        {% csrf_token %}
+	        {{form1|crispy}}
+	        {{form2|crispy}}
+	    	<button type="submit">Update</button>
+	    </form>
+	  </div>
 </div>
-
-
 {% endblock content %}

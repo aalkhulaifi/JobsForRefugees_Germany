@@ -29,9 +29,8 @@ button {
     width: 100%;
     font-size: 18px;
 }
-
-            {% for area in areas %}
-            {% for tasker in area.tasker_set.all%}
+{% for area in areas %}
+{% for tasker in area.tasker_set.all%}
 
 
 <br>
@@ -47,7 +46,6 @@ button {
   <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
 
 </div>
-
 </div>
   {% endfor %}
   {% endfor %}
