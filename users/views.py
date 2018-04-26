@@ -39,7 +39,6 @@ def user_signin(request):
 			if auth_user is not None:
 				login(request, auth_user)
 				return redirect('home')
-
 	context = {
 		"form":form
 	}
@@ -68,8 +67,8 @@ def tasker_signup(request):
 			form2.save_m2m()
 			login(request, user)
 			return redirect("home")
-		print (form1.errors)
-		print (form2.errors)
+		# print (form1.errors)
+		# print (form2.errors)
 	context = {
 		"form1":form1,
 		"form2":form2,
@@ -93,8 +92,7 @@ def user_edit_profile(request):
 	   
 	}
 	return render(request, 'user_edit_profile.html', context)
-
-
+	
 def tasker_edit_profile(request):
 	if not request.user.is_tasker:
 		raise Http404

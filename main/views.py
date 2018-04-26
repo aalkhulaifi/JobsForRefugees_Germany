@@ -6,23 +6,8 @@ from django.utils import timezone
 from main.models import Area
 from django.db.models import Q
 from users.models import Tasker
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-def area_list(request):
-	areas = Area.objects.all()
-	# taskers = area.tasker.all()
-	query = request.GET.get("q")
-	if query:
-		areas = areas.filter(
-			name__icontains=query
-			
-			).distinct()
-
-	context = {
-		"areas": areas,
-		# "tasker": tasker,
-
-	}
-	return render(request, 'area.html', context)
 def home(request):
 	form = TaskerSearch()
 	taskers = Tasker.objects.none()
@@ -33,15 +18,14 @@ def home(request):
 			categories__id=categories,
 			areas__id=areas
 			)
-		
 	context = {
 		"taskers": taskers,
 		"categories": categories,
 		"areas": areas,
 		"form": form,
 	}
-
 	return render(request, 'home.html', context)
+
 def list(request):
 	form = TaskerSearch()
 	taskers = Tasker.objects.none()
@@ -52,40 +36,32 @@ def list(request):
 			categories__id=categories,
 			areas__id=areas
 			)
+	paginator = Paginator(categories, 3) 
+	page = request.GET.get('page')
+	try:
+		objects = paginator.page(page)
+
+	except PageNotAnInteger:
+		objects = paginator.page(1)
+	except EmptyPage:
+		objects = paginator.page(paginator.num_pages)
 		
 	context = {
 		"taskers": taskers,
 		"categories": categories,
 		"areas": areas,
 		"form": form,
+		"categories": objects,
+
 	}
 	return render(request, 'list.html', context)
+
 def about(request):
 	return render(request, 'about.html')
 
-def category_detail(request, category_id):
-	category = Category.objects.get(id=category_id)
-	taskers = category.tasker_set.all()
-	context = {
-		"taskers": taskers
-	}
-	return render(request, 'tasker_profile_detail.html', context)
-
 def tasker_profile_detail(request, tasker_id):
-	# # tasker_profile = Category.objects.get(id=tasker_id)
-	taskers = Tasker.objects.get(id=tasker_id)
-	# # profiles = tasker_profile.tasker_set.all()
-
-	# context = {
-	# 	# "profiles": profiles,
-	# 	"tasker": tasker,
-	# }
-	taskers = Tasker.objects.none()
-	areas = Area.objects.all()
-		
 	context = {
-		"taskers": taskers,
-		"areas": areas,
-	}
-	return render(request, 'category_detail.html', context)
+			"user": Tasker.objects.get(id=tasker_id)
+		}
+	return render(request, 'tasker_profile_detail.html', context)
 

@@ -1,32 +1,14 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-
 {% block title %}
 Login
 {% endblock title %}
-
-
 {% block content %}
 <br>
 <h4>Login</h4>
-<form action="{% url 'signin' %}" method="POST">
-	{% csrf_token %}
-	{{form|crispy}}
-	<button type="submit" class="btn btn-outline-info">Login</button>
-</form>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
+	<form action="{% url 'signin' %}" method="POST">
+		{% csrf_token %}
+		{{form|crispy}}
+		<button type="submit" class="btn btn-outline-info">Login</button>
+	</form>
 {% endblock content %}

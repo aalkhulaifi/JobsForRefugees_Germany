@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-
 {% block content %}
 
 <style type="text/css">
@@ -29,32 +28,37 @@
 	    font-size: 18px;
 	}
 
-	 {% for area in areas %}
-	 {% for tasker in taskers %}
-</style>
+{% for area in areas %}
+	{% for tasker in taskers %}
+	</style>
 
+	<br>
+
+	<div class="card">
+	  <img src="{{tasker.profile_picture.url}}" alt="" style="width:100%">
+	  <h3>{{tasker.user}}</h3>
+	  <p class="title">Profession:{{tasker.profession}}</p>
+	  <p>Rate:{{tasker.rate}}</p>
+	   <p>Skills: {% for skill in tasker.categories.all %} -{{skill}}{% endfor %}</p>
+	  <p>areas:{% for area in tasker.areas.all %} -{{area}}{% endfor %}</p>
+	  <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
+	</div>
+	{% endfor %}
+{% endfor %}
 <br>
+<div class="pagination">
+    <span class="step-links">
+        {% if categories.has_previous %}
+            <a href="?page={{ categories.previous_page_number }}&q={{ request.GET.q }}">previous</a>
+        {% endif %}
 
-<div class="card">
-  <img src="{{tasker.profile_picture.url}}" alt="" style="width:100%">
-  <h3>{{tasker.user}}</h3>
-  <p class="title">Profession:{{tasker.profession}}</p>
-  <p>Rate:{{tasker.rate}}</p>
-   <p>Skills: {% for skill in tasker.categories.all %} -{{skill}}{% endfor %}</p>
-  <p>areas:{% for area in tasker.areas.all %} -{{area}}{% endfor %}</p>
-  <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
+        <span class="current">
+            Page {{ categories.number }} of {{ categories.paginator.num_pages }}.
+        </span>
+
+        {% if categories.has_next %}
+            <a href="?page={{ categories.next_page_number }}&q={{ request.GET.q }}">next</a>
+        {% endif %}
+    </span>
 </div>
-</style>
-  	{% endfor %}
-  	{% endfor %}
-<br>
-<nav aria-label="...">
-  <ul class="pagination pagination-lg">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">1</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-  </ul>
-</nav>
 {% endblock content %}

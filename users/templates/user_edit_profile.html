@@ -4,11 +4,8 @@
 {% block title %}
 Edit Profile
 {% endblock title %}
-
-
 {% block content %}
 <div class="container" >
-
 	<div class="center" class="card card-body">
 		 <form action="{% url 'edit_profile' %}" method="POST">
 			        {% csrf_token %}

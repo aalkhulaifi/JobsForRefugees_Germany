@@ -3,7 +3,7 @@
 
 <html lang="en">
   <head>
-<link rel="shortcut icon" href="{% static 'germany.png' %}"/>
+  <link rel="shortcut icon" href="{% static 'germany.png' %}"/>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -11,9 +11,10 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+
     <!-- Add icon library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 
     <title>{% block title %} {% endblock title %}</title>
     <style>
@@ -38,6 +39,7 @@
     </style>
   </head>
   <body>
+
     {% include "navbar.html" %}
     <div class="container">
       {% block content %}

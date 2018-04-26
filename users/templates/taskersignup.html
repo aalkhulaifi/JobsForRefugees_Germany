@@ -4,10 +4,7 @@
 {% block title %}
 Tasker Register
 {% endblock title %}
-
-
 {% block content %}
-
 <br>
 <h4 style="text-align:center;">Tasker Register Form</h4>
 	<form action="{% url 'taskersignup' %}" method="POST" enctype="multipart/form-data">
@@ -16,5 +13,4 @@ Tasker Register
 	    {{form2|crispy}}
 	    <input class = "btn btn-outline-info" type="submit" value="Register">
 	</form>
- 
 {% endblock content %}

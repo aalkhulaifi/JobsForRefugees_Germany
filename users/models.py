@@ -19,7 +19,6 @@ class Tasker(models.Model):
 	def __str__(self):
 		return self.user.get_full_name()
 
-
 # class Task(models.Model):
 # 	user = models.ForeignKey(User, on_delete=)
 # 	tasker = 
