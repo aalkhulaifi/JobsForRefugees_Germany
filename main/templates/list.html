@@ -27,13 +27,11 @@
 	    width: 100%;
 	    font-size: 18px;
 	}
+</style>
+<br>
 
-{% for area in areas %}
+
 	{% for tasker in taskers %}
-	</style>
-
-	<br>
-
 	<div class="card">
 	  <img src="{{tasker.profile_picture.url}}" alt="" style="width:100%">
 	  <h3>{{tasker.user}}</h3>
@@ -44,20 +42,21 @@
 	  <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
 	</div>
 	{% endfor %}
-{% endfor %}
 <br>
 <div class="pagination">
     <span class="step-links">
-        {% if categories.has_previous %}
-            <a href="?page={{ categories.previous_page_number }}&q={{ request.GET.q }}">previous</a>
+        {% if taskers.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ taskers.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ categories.number }} of {{ categories.paginator.num_pages }}.
+            Page {{ taskers.number }} of {{ taskers.paginator.num_pages }}.
         </span>
 
-        {% if categories.has_next %}
-            <a href="?page={{ categories.next_page_number }}&q={{ request.GET.q }}">next</a>
+        {% if taskers.has_next %}
+            <a href="?page={{ taskers.next_page_number }}">next</a>
+            <a href="?page={{ taskers.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>
