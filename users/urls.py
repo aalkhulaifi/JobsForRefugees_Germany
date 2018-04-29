@@ -12,5 +12,5 @@ urlpatterns = [
     path('tasker_edit_profile/', views.tasker_edit_profile, name='tasker_edit_profile'),
     path('request/send/', views.making_a_request, name="request" ),
     path('send_a_request_to_a_tasker/<int:send_request_id>/', views.send_a_request_to_a_tasker, name="send_a_request_to_a_tasker"),
-    path('task_list/', views.task_list, name="tasks" ),
+    path('task_list/', views.task_list, name="task" ),
 ]

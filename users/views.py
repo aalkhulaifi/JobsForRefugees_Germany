@@ -139,6 +139,7 @@ def request(request):
 	return render(request,'request.html', context)
 
 
+
 def send_a_request_to_a_tasker(request, send_request_id):
 	request_received = Task_Request.objects.filter(tasker=request.user)
 	request_received = request_received.filter(user__id=send_request_id)
@@ -153,7 +154,7 @@ def send_a_request_to_a_tasker(request, send_request_id):
 		'recipient': send_request_id,
 		'requests': requests
 	}
-	return redirect("task_list")
+	return redirect("task")
 
 	return render(request,'request_form.html', context)
 
