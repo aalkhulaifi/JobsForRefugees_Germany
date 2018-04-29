@@ -123,7 +123,7 @@ def making_a_request(request):
 		form = form.save(commit=False)
 		form.author=request.user
 		form.save()
-		return redirect("request_list")
+		return redirect("send_a_request_to_a_tasker")
 	context = {
 	"form": form,
 	}
