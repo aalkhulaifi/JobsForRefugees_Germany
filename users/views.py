@@ -138,28 +138,11 @@ def request(request):
 	}
 	return render(request,'request.html', context)
 
-def save_a_request(request, request_id):
-	request = Task_Request.objects.get(id=request_id)
-	request.save()
-	
-	return redirect("/send_a_request_to_a_tasker/")
-
-def request_list(request):
-	request = Task_Request.objects.filter(received_requests=request.user)
-	users = []
-	for request in requests:
-		users.append(request.user)
-	users = list(set(users))
-	context={
-	'request_list': users,
-	}
-	return render(request,'request_list.html',context)
-
 def send_a_request_to_a_tasker(request, send_request_id):
-	request_received = Task_Request.objects.filter(received_requests=request.user)
+	request_received = Task_Request.objects.filter(tasker=request.user)
 	request_received = request_received.filter(user__id=send_request_id)
 	request_sent = Task_Request.objects.filter(user=request.user)
-	request_sent = request_sent.filter(received_requests__id=send_request_id)
+	request_sent = request_sent.filter(tasker__id=send_request_id)
 	requests = request_received | request_sent
 	requests = requests.distinct().order_by("time")
 	
