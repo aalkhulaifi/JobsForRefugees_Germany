@@ -10,8 +10,7 @@
         {% csrf_token %}
     {{form|crispy}}
     </form>
-<button type="submit" class="btn btn-success"> Send </button>
-    </form>
+<a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'request' %}">Send a Request</a>    </form>
 
 </div>
 

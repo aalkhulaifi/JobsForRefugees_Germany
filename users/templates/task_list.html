@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+ {% for user in task_list %}
+        
+        <a href="{% url 'request' user.id %}">{{user}}</a><br>
+        
+{% endfor %}
+
+{% endblock content %}

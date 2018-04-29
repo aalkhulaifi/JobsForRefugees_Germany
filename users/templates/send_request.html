@@ -5,7 +5,7 @@
 {% block content  %}
     <form action="{% url 'request' %}" method="POST">
         {% csrf_token %}
-        <input type="submit" class="btn btn-outline-info col-lg-12 py-4 " value='Send'>
+        <input type="submit" value='Send'>
     </form>
 
 {% endblock  content%}
