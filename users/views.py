@@ -121,7 +121,7 @@ def making_a_request(request):
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		form = form.save(commit=False)
-		form.author=request.user
+		form.user=request.user
 		form.save()
 		return redirect("send_a_request_to_a_tasker")
 	context = {
