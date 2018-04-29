@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title  %} Send A Request {% endblock  %}
+
+{% block content  %}
+    <form action="{% url 'request' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name='request' placeholder=" write a task request"><br>
+        <input type="hidden" name='received_requests' value="{{received_requests}}">
+        <br>
+        <input type="submit" value="Send">
+    </form>
+
+{% endblock  %}

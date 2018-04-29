@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
-from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm
+from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm,Task_RequestForm
 from django.contrib.auth import login , logout,authenticate
-from .models import Tasker, User
+from .models import Tasker, User, Task_Request
 from django.contrib import messages
 
 def registration_path(request):
@@ -114,3 +114,59 @@ def tasker_edit_profile(request):
 	   
 	}
 	return render(request, 'tasker_edit_profile.html',context)
+
+def making_a_request(request):
+	if not request.user.is_authenticated:
+		return redirect('signin')
+	form = Task_RequestForm(request.POST or None, request.FILES or None)
+	if form.is_valid():
+		form = form.save(commit=False)
+		form.author=request.user
+		form.save()
+		return redirect("request_list")
+	context = {
+	"form": form,
+	}
+	return render(request, 'request_form.html', context)
+
+def request(request):
+	if request.method == "POST":
+		Task_Request.objects.create(text=request.POST.get("request"), received_requests=request.POST.get("received_requests"), user=request.user)
+	
+	context={
+	'requests': Task_Request.objects.all()
+	}
+	return render(request,'request.html', context)
+
+def save_a_request(request, request_id):
+	request = Task_Request.objects.get(id=request_id)
+	request.save()
+	
+	return redirect("/send_a_request_to_a_tasker/")
+
+def request_list(request):
+	request = Task_Request.objects.filter(received_requests=request.user)
+	users = []
+	for request in requests:
+		users.append(request.user)
+	users = list(set(users))
+	context={
+	'request_list': users,
+	}
+	return render(request,'request_list.html',context)
+
+def send_a_request_to_a_tasker(request, send_request_id):
+	request_received = Task_Request.objects.filter(received_requests=request.user)
+	request_received = request_received.filter(user__id=send_request_id)
+	request_sent = Task_Request.objects.filter(user=request.user)
+	request_sent = request_sent.filter(received_requests__id=send_request_id)
+	requests = request_received | request_sent
+	requests = requests.distinct().order_by("time")
+	
+	context = {
+		'requests': request_received,
+		'request_sent': request_sent,
+		'recipient': send_request_id,
+		'requests': requests
+	}
+	return render(request,'send_request.html', context)

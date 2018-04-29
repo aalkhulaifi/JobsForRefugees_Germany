@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Tasker
+from .models import Tasker, Task_Request
 from django.contrib.auth.forms import UserCreationForm
 User = get_user_model()
 
@@ -33,4 +33,10 @@ class TaskerEditProfileForm(forms.ModelForm):
     class Meta:
         model = Tasker
         exclude = ['user']
+
+class Task_RequestForm(forms.ModelForm):
+    class Meta:
+        model = Task_Request 
+        fields = ['user', 'tasker','time', 'date', 'contact_number', 'description']
+
     

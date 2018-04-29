@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title  %}Requests{% endblock  %}
+
+{% block content  %}
+
+
+<h3> Here is some requests for you </h3><br>
+
+{%if request.user.task_request_set.all   %}
+        {% for request in request.user.task_request_set.all %}
+                    <p> {{request.user}}</p>
+                    <p> {{request.tasker}}</p> 
+        {% endfor %}
+      </div>
+{% else %}
+ <h3> Sorry, No Tasks for you! </h3>
+
+{%endif%}
+
+{% endblock  %}

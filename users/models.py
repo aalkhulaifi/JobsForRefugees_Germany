@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from main.models import Category, Area
+from django.utils import timezone
 
 class User(AbstractUser):
 	email = models.EmailField(unique=True)
@@ -19,11 +20,16 @@ class Tasker(models.Model):
 	def __str__(self):
 		return self.user.get_full_name()
 
-# class Task(models.Model):
-# 	user = models.ForeignKey(User, on_delete=)
-# 	tasker = 
-# 	date = 
-# 	time =
-# 	contact_number =
-# 	description =
-# 	status = 
+class Task_Request(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='send_request')
+	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE , related_name='received_requests')
+	date = models.DateTimeField(default=timezone.now)
+	time = models.DateTimeField(blank=True, null=True)
+	contact_number = models.PositiveIntegerField(null=True, blank=True)
+	description = models.TextField()
+	status = models.BooleanField(blank=True)
+
+	def __str__(self):
+		return self.user.get_full_name()
+
+
