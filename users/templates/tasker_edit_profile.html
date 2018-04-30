@@ -7,11 +7,11 @@ Edit Profile
 {% block content %}
 <div class="container" >
 	<div class="center" class="card card-body">
-		 <form action="{% url 'tasker_edit_profile' %}" method="POST">
+		 <form action="{% url 'tasker_edit_profile' %}" method="POST" enctype="multipart/form-data">
 	        {% csrf_token %}
 	        {{form1|crispy}}
 	        {{form2|crispy}}
-	    	<button type="submit">Update</button>
+	    	<button type="submit" value='Save'>Update</button>
 	    </form>
 	  </div>
 </div>

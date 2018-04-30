@@ -97,8 +97,8 @@ def tasker_edit_profile(request):
 	if not request.user.is_tasker:
 		raise Http404
 	if request.method == 'POST':
-		form1 = UserEditProfileForm(request.POST, instance=request.user)
-		form2 = TaskerEditProfileForm(request.POST, instance=request.user.tasker)
+		form1 = UserEditProfileForm(request.POST or None,request.FILES, instance=request.user)
+		form2 = TaskerEditProfileForm(request.POST or None,request.FILES, instance=request.user.tasker)
 		if form1.is_valid() and form2.is_valid():
 			form1.save()
 			form2.save()
