@@ -118,8 +118,15 @@ def tasker_edit_profile(request):
 def making_a_request(request):
 	if not request.user.is_authenticated:
 		return redirect('signin')
+	if request.method == "POST":
+		tasker = User.objects.get(pk=1)
+		Task_Request.objects.create(
+			request.user,                               
+			request.tasker,
+			)
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
+
 		form = form.save(commit=False)
 		form.user=request.user
 		form.save()
