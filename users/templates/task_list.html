@@ -4,18 +4,44 @@
 
 {% block content %}
 
+<style type="text/css">
+	  .card {
+	    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	    max-width: 300px;
+	    margin: auto;
+	    text-align: center;
+	}
 
-{% for requests in task_list %}
-  
+	.title {
+	    color: grey;
+	    font-size: 18px;
+	}
+
+	button {
+	    border: none;
+	    outline: 0;
+	    display: inline-block;
+	    padding: 8px;
+	    color: white;
+	    background-color: #000;
+	    text-align: center;
+	    cursor: pointer;
+	    width: 100%;
+	    font-size: 18px;
+	}
+{% for request in task_list %}  
+</style>
+<br>
 <div class="card">
-	  <img src="{{requests.user}}" alt="" style="width:100%">
-	  <h3>{{requests.tasker}}</h3>
-	  <p class="title">Date:{{requests.date}}</p>
-	  <p>Time:{{requests.time}}</p>
-	   <p>Contact Number: {{requests.contact_number}}</p>
-	  <p>Description:{{requests.description}}</p>
-	  
+	  <h1>From {{request.user}}</h1>
+	  <h5>To {{request.tasker}}</h5>
+	  <p class="title">Date:{{request.date}}</p>
+	  <p>Time:{{request.time}}</p>
+	   <p>Contact Number: {{request.contact_number}}</p>
+	  <p>Description:{{request.description}}</p>
+	  <br>
 </div>
+
 {% endfor %}
 
 {% endblock content %}
