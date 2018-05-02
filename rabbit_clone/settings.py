@@ -41,6 +41,19 @@ INSTALLED_APPS = [
     'users',
     'crispy_forms',
 ]
+DENIED_REQUEST = 50
+
+REQUEST_TAGS={
+    
+    DENIED_REQUEST : 'REQUEST_REJECTED',
+
+}
+
+TEMPLATE_CONTEXT_PROCESSORS ={
+   'django.contrib.auth.context_processors.auth',
+   'django.core.context_processors.request',
+   'django.contrib.messages.context_processors.messages',
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

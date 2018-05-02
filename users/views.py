@@ -3,8 +3,10 @@ from django.http import HttpResponse, Http404
 from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm,Task_RequestForm
 from django.contrib.auth import login , logout,authenticate
 from .models import Tasker, User, Task_Request
+from django.conf import settings
 from django.contrib import messages
-
+from django.template import RequestContext
+from main import views
 def registration_path(request):
 	return render(request, 'register.html')
 
@@ -115,63 +117,39 @@ def tasker_edit_profile(request):
 	}
 	return render(request, 'tasker_edit_profile.html',context)
 
-def making_a_request(request):
-	if not request.user.is_authenticated:
-		return redirect('signin')
+def make_a_request(request):
+	form = Task_RequestForm()
 	if request.method == "POST":
-		tasker = User.objects.get(pk=1)
-		Task_Request.objects.create(
-			request.user,                               
-			request.tasker,
-			)
-	form = Task_RequestForm(request.POST or None, request.FILES or None)
-	if form.is_valid():
-
-		form = form.save(commit=False)
-		form.user=request.user
-		form.save()
-		return redirect("send_a_request_to_a_tasker")
+		form = Task_RequestForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect("tasks")
 	context = {
-	"form": form,
+		"form":form
 	}
-	return render(request, 'request_form.html', context)
+	return render(request, 'make_a_request.html', context)
 
-def request(request):
-	if request.method == "POST":
-		Task_Request.objects.create(text=request.POST.get("request"), received_requests=request.POST.get("received_requests"), user=request.user)
-	
-	context={
-	'requests': Task_Request.objects.all()
-	}
-	return render(request,'request.html', context)
+# 
 
 
 
-def send_a_request_to_a_tasker(request, send_request_id):
-	request_received = Task_Request.objects.filter(tasker=request.user)
-	request_received = request_received.filter(user__id=send_request_id)
-	request_sent = Task_Request.objects.filter(user=request.user)
-	request_sent = request_sent.filter(tasker__id=send_request_id)
-	requests = request_received | request_sent
-	requests = requests.distinct().order_by("time")
-	
-	context = {
-		'requests': request_received,
-		'request_sent': request_sent,
-		'recipient': send_request_id,
-		'requests': requests
-	}
-	return redirect("task")
 
-	return render(request,'request_form.html', context)
+def request_denied(request,request_id):
+	d = Task_Request.objects.get(id=request_id)
+	tasker_id = d.tasker_id.id
+	d.delete()
 
-def task_list(request):
-	requests= Task_Request.objects.filter(user=request.user)
-	users = []
-	for request in requests:
-		users.append(request.user)
-	users = list(set(users))
-	context={
-	'task_list': users,
-	}
-	return render(request,'task_list.html',context)
+	messages.make_a_request(request,settings.DENIED_REQUEST, "Your request was denied")
+
+	return redirect("tasks")
+
+# def task_list(request):
+# 	requests= Task_Request.objects.filter(user=request.user)
+# 	users = []
+# 	for request in requests:
+# 		users.append(request.user)
+# 	users = list(set(users))
+# 	context={
+# 	'task_list': users,
+# 	}
+# 	return render(request,'task_list.html',context)

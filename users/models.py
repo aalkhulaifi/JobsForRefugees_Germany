@@ -27,7 +27,7 @@ class Task_Request(models.Model):
 	time = models.DateTimeField(blank=True, null=True)
 	contact_number = models.PositiveIntegerField(null=True, blank=True)
 	description = models.TextField()
-	status = models.BooleanField(blank=True)
+	status = models.NullBooleanField()
 
 	def __str__(self):
 		return self.user.get_full_name()

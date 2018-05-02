@@ -8,6 +8,8 @@
  {% for user in task_list %}
         
         <a href="{% url 'request' user.id %}">{{user}}</a><br>
+        <a href="{% url 'deniy_request' request_id=request.id %}">Deniy</a>
+
         
 {% endfor %}
 
