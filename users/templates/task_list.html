@@ -5,12 +5,17 @@
 {% block content %}
 
 
- {% for user in task_list %}
-        
-        <a href="{% url 'request' user.id %}">{{user}}</a><br>
-        <a href="{% url 'deniy_request' request_id=request.id %}">Deniy</a>
-
-        
+{% for requests in task_list %}
+  
+<div class="card">
+	  <img src="{{requests.user}}" alt="" style="width:100%">
+	  <h3>{{requests.tasker}}</h3>
+	  <p class="title">Date:{{requests.date}}</p>
+	  <p>Time:{{requests.time}}</p>
+	   <p>Contact Number: {{requests.contact_number}}</p>
+	  <p>Description:{{requests.description}}</p>
+	  
+</div>
 {% endfor %}
 
 {% endblock content %}

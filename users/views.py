@@ -123,15 +123,11 @@ def make_a_request(request):
 		form = Task_RequestForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect("tasks")
+			return redirect("task")
 	context = {
 		"form":form
 	}
 	return render(request, 'make_a_request.html', context)
-
-# 
-
-
 
 
 def request_denied(request,request_id):
@@ -141,15 +137,11 @@ def request_denied(request,request_id):
 
 	messages.make_a_request(request,settings.DENIED_REQUEST, "Your request was denied")
 
-	return redirect("tasks")
+	return redirect("task")
 
-# def task_list(request):
-# 	requests= Task_Request.objects.filter(user=request.user)
-# 	users = []
-# 	for request in requests:
-# 		users.append(request.user)
-# 	users = list(set(users))
-# 	context={
-# 	'task_list': users,
-# 	}
-# 	return render(request,'task_list.html',context)
+def task_list(request):
+	requests= Task_Request.objects.all()
+	context={
+	'task_list': requests,
+	}
+	return render(request,'task_list.html',context)

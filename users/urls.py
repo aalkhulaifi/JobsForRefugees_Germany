@@ -13,5 +13,5 @@ urlpatterns = [
     path('send_request/', views.make_a_request, name='request'),
     path('deniy/', views.request_denied, name='deniy_request'),
    
-    # path('task_list/', views.task_list, name="task" ),
+    path('task_list/', views.task_list, name="task" ),
 ]
