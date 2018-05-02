@@ -118,6 +118,8 @@ def tasker_edit_profile(request):
 	return render(request, 'tasker_edit_profile.html',context)
 
 def make_a_request(request):
+	if request.user.is_anonymous:
+		return redirect('signin')
 	form = Task_RequestForm()
 	if request.method == "POST":
 		form = Task_RequestForm(request.POST)
@@ -131,11 +133,9 @@ def make_a_request(request):
 
 
 def request_denied(request,request_id):
-	d = Task_Request.objects.get(id=request_id)
-	tasker_id = d.tasker_id.id
-	d.delete()
+	Task_Request.objects.get(id=request_id).delete()
 
-	messages.make_a_request(request,settings.DENIED_REQUEST, "Your request was denied")
+	messages.add_message(request,settings.DENIED_REQUEST, "Your request was denied")
 
 	return redirect("task")
 

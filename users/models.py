@@ -21,8 +21,8 @@ class Tasker(models.Model):
 		return self.user.get_full_name()
 
 class Task_Request(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE )
-	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE )
+	user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='send_request')
+	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE , related_name='received_requests')
 	date = models.DateTimeField(default=timezone.now)
 	time = models.DateTimeField(blank=True, null=True)
 	contact_number = models.PositiveIntegerField(null=True, blank=True)

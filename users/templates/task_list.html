@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-
+{% block title %}
+Tasks
+{% endblock title %}
 {% block content %}
-
+<h1>Tasks:</h1>
 <style type="text/css">
 	  .card {
 	    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -40,6 +42,8 @@
 	   <p>Contact Number: {{request.contact_number}}</p>
 	  <p>Description:{{request.description}}</p>
 	  <p>Status:{{request.status}}</p>
+	  <a href="{% url 'deniy_request' request_id=request.id %}">Delete</a>
+
 	  <br>
 </div>
 

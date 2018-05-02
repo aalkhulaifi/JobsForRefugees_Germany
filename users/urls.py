@@ -11,7 +11,6 @@ urlpatterns = [
     path('edit_profile/', views.user_edit_profile, name='edit_profile'),
     path('tasker_edit_profile/', views.tasker_edit_profile, name='tasker_edit_profile'),
     path('send_request/', views.make_a_request, name='request'),
-    path('deniy/', views.request_denied, name='deniy_request'),
-   
+    path('deniy/<int:request_id>', views.request_denied, name='deniy_request'),
     path('task_list/', views.task_list, name="task" ),
 ]
