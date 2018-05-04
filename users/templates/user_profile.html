@@ -6,20 +6,31 @@
 <br>
 <div class="row">
   <div class="col-12">
-    <div class="card">
+      <div class="row justify-content-center text-center align-items-center">
+    <div class="card" style="width: 38rem;" >
     {% if user.is_tasker %}
+      <style>
+      .icon-width {
+    width: 45%;
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+    </style>
+    <div class="icon-width">
       <img class="card-img-top img-fluid" src="{{user.tasker.profile_picture.url}}" alt="Card image cap">
+    </div>
     {% endif %}
-      <div class="card-body">
-       <h5 class="card-title">{{user.username}}</h5>
+      <div class="card-body text-center">
+       <h5 class="card-title text-center">{{user.username}}</h5>
       </div>
         <ul class="list-group list-group-flush">
-           <li class="list-group-item">First Name: {{user.first_name}}</li>
-           <li class="list-group-item">Last Name: {{user.last_name}}</li>
-           <li class="list-group-item">Email: {{user.email}}</li>
-           <li class="list-group-item">Last Name: {{user.last_name}}</li>
+           <li class="list-group-item text-center">First Name: {{user.first_name}}</li>
+           <li class="list-group-item text-center">Last Name: {{user.last_name}}</li>
+           <li class="list-group-item text-center">Email: {{user.email}}</li>
+           <li class="list-group-item text-center">Last Name: {{user.last_name}}</li>
         </ul>
-        <div class="card-body">
+        <div class="card-body text-center">
           {% if request.user.is_tasker %}
              <a href="{% url 'tasker_edit_profile' %}" class="btn btn-outline-info btn-block">Edit profile</a>
           {% else %}
@@ -29,4 +40,7 @@
     </div>
   </div>
 </div>
+</style>
+</div>
+<br>
 {% endblock content %}

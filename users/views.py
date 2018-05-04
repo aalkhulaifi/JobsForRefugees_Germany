@@ -118,8 +118,6 @@ def tasker_edit_profile(request):
 	return render(request, 'tasker_edit_profile.html',context)
 
 def make_a_request(request):
-	if request.user.is_anonymous:
-		return redirect('signin')
 	form = Task_RequestForm()
 	if request.method == "POST":
 		form = Task_RequestForm(request.POST)
@@ -132,16 +130,26 @@ def make_a_request(request):
 	return render(request, 'make_a_request.html', context)
 
 
-def request_denied(request,request_id):
-	Task_Request.objects.get(id=request_id).delete()
 
-	messages.add_message(request,settings.DENIED_REQUEST, "Your request was denied")
+def request_denied(request,request_id):
+	d = Task_Request.objects.get(id=request_id)
+	tasker_id = d.tasker_id.id
+	d.delete()
+
+	messages.make_a_request(request,settings.DENIED_REQUEST, "Your request was denied")
 
 	return redirect("task")
 
 def task_list(request):
-	requests= Task_Request.objects.all()
+	requests= Task_Request.objects.filter(user=request.user)
+	users = []
+	for request in requests:
+		users.append(request.user)
+	users = list(set(users))
 	context={
-	'task_list': requests,
+	'task_list': users,
 	}
 	return render(request,'task_list.html',context)
+
+def notifications(request):
+	return render(request, 'notifications.html')

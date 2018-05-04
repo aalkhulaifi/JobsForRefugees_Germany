@@ -13,4 +13,8 @@ urlpatterns = [
     path('send_request/', views.make_a_request, name='request'),
     path('deniy/<int:request_id>', views.request_denied, name='deniy_request'),
     path('task_list/', views.task_list, name="task" ),
+    path('notifications/', views.notifications, name='notifications'),
+
+#     path('request_success/',views.request_success),
+#     path('send_request/',views.send_request),
 ]

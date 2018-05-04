@@ -65,3 +65,6 @@ def tasker_profile_detail(request, tasker_id):
 		}
 	return render(request, 'tasker_profile_detail.html', context)
 
+def billing(request):
+	return render(request, 'billing.html')
+

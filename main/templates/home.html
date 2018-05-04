@@ -2,22 +2,20 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <form action="{% url 'list'%}" >
-    </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 text-center">
+ <div class="menu-wrap">
+
+      <ul class="dropdown">
+  <form action="{% url 'list'%}" >
     {{form|crispy}}
-      <br>
-      <br>
-        <div>
-          <br>
-          <div class="container">
-            <input type="submit" class="btn btn-outline-info col-lg-12 py-4 " value='Search'>
-             </div>
-        </div>
-        </form>
-      </div>
-  </div>
+      <input type="submit" class="btn btn-outline-info my-2 my-sm-0" value='Search'>
+      </form>
+      </ul>
 </div>
+</div>
+</div>
+</div>
+
 {% endblock content %}
