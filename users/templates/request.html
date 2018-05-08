@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+Register
+{% endblock title %}
+{% block content %}
+
+    From: <h3>{{request.user}}</h3>
+      
+            {{user}}
+    To:
+            {{tasker}}<br>
+            {{reqs_sent}}<br>
+            {{reqs}}<br>
+{% endblock content %}

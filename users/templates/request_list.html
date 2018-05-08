@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-{% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
-Tasks
+   requests List
+
 {% endblock title %}
 {% block content %}
-<h1>Tasks:</h1>
 <style type="text/css">
 	  .card {
 	    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -31,26 +30,16 @@ Tasks
 	    width: 100%;
 	    font-size: 18px;
 	}
-</style>
-<div>
-	<a href="{% url 'request' %}">Create</a>
 
-</div>
-{% for request in task_list %}  
-</style>
-<br>
-<div class="card">
-	  <h1>From {{request.user}}</h1>
-	  <h5>To {{request.tasker}}</h5>
-	  <p class="title">Date:{{request.date}}</p>
-	  <p>Time:{{request.time}}</p>
-	   <p>Contact Number: {{request.contact_number}}</p>
-	  <p>Description:{{request.description}}</p>
-	  <p>Status:{{request.status}}</p>
 
-	  <br>
-</div>
 
+{% for user in request_list %}
+        </style>
+        <br>
+        <div class="card">
+        <a href=" {% url 'requests' %}{{user.id}}">{{user}}</a><br>
+      </div>  
 {% endfor %}
-
+    
 {% endblock content %}
+ 
