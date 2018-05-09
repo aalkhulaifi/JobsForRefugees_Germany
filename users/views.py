@@ -119,3 +119,50 @@ def tasker_edit_profile(request):
 
 def notifications(request):
 	return render(request, 'notifications.html')
+
+def requests(request):
+	if not request.user.is_authenticated:
+		return redirect('signin')
+	form = Task_RequestForm(request.POST or None, request.FILES or None)
+	if form.is_valid():
+		description = form.save(commit=False)
+		description.user=request.user
+		description.save()
+		return redirect("request_list")
+	context = {
+	"form": form,
+	}
+	return render(request, 'request_form.html', context)
+
+def accept_request(request, request_id):
+	request = Task_Request.objects.get(id=request_id)
+	request.save()
+	
+	return redirect("/request/")
+
+def request_list(request):
+
+	reqs= Task_Request.objects.filter(user=request.user)
+	users = []
+	for req in reqs:
+		users.append(req.user)
+	users = list(set(users))
+	context={
+	'request_list': users,
+	}
+	return render(request,'request_list.html',context)
+def request(request, sender_id):
+	reqs_received = Task_Request.objects.filter(user=request.user)
+	reqs_received = reqs_received.filter(user__id=sender_id)
+	reqs_sent = Task_Request.objects.filter(user=request.user)
+	reqs_sent = reqs_sent.filter(user__id=sender_id)
+	reqs = reqs_received | reqs_sent
+	reqs = reqs.distinct().order_by("time")
+	
+	context = {
+		'requests': reqs_received,
+		'reqs_sent': reqs_sent,
+		'id': sender_id,
+		'reqs': reqs
+	}
+	return render(request,'request.html', context)
