@@ -11,7 +11,7 @@ urlpatterns = [
     path('edit_profile/', views.user_edit_profile, name='edit_profile'),
     path('tasker_edit_profile/', views.tasker_edit_profile, name='tasker_edit_profile'),
     path('notifications/', views.notifications, name='notifications'),
-    path('request/<int:sender_id>/', views.request, name= 'request'),
+    path('request/<int:pk>/', views.request, name= 'request'),
     path('request_list/', views.request_list, name = 'request_list' ),
     path('send/', views.requests, name = 'requests' ),
 ]

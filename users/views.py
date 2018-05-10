@@ -125,9 +125,8 @@ def requests(request):
 		return redirect('signin')
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
-		description = form.save(commit=False)
-		description.user=request.user
-		description.save()
+		form = form.save(commit=False)
+		form.save()
 		return redirect("request_list")
 	context = {
 	"form": form,
@@ -135,14 +134,17 @@ def requests(request):
 	return render(request, 'request_form.html', context)
 
 def accept_request(request, request_id):
+	if not request.user.is_tasker:
+		raise Http404
 	request = Task_Request.objects.get(id=request_id)
 	request.save()
 	
-	return redirect("/request/")
+	return redirect("request")
 
 def request_list(request):
-
-	reqs= Task_Request.objects.filter(user=request.user)
+	if not request.user.is_tasker:
+		raise Http404
+	reqs= Task_Request.objects.all()
 	users = []
 	for req in reqs:
 		users.append(req.user)
@@ -151,18 +153,34 @@ def request_list(request):
 	'request_list': users,
 	}
 	return render(request,'request_list.html',context)
-def request(request, sender_id):
-	reqs_received = Task_Request.objects.filter(user=request.user)
-	reqs_received = reqs_received.filter(user__id=sender_id)
-	reqs_sent = Task_Request.objects.filter(user=request.user)
-	reqs_sent = reqs_sent.filter(user__id=sender_id)
-	reqs = reqs_received | reqs_sent
-	reqs = reqs.distinct().order_by("time")
-	
+
+def request(request, pk):
+	if not request.user.is_tasker:
+		raise Http404
+	instance = Task_Request.objects.get(pk=pk)
+	form = Task_RequestForm()
+
+	if request.method=="GET":
+		form = Task_RequestForm(request.GET)
+
+
 	context = {
-		'requests': reqs_received,
-		'reqs_sent': reqs_sent,
-		'id': sender_id,
-		'reqs': reqs
+	"form":form,
+	"instance": instance,
+
 	}
+
 	return render(request,'request.html', context)
+
+def sent_request_list(request):
+	if request.user.is_tasker:
+		raise Http404
+	reqs= Task_Request.objects.all()
+	users = []
+	for req in reqs:
+		users.append(req.user)
+	users = list(set(users))
+	context={
+	'request_list': users,
+	}
+	return render(request,'request_list.html',context)
