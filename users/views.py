@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse, Http404
 from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm,Task_RequestForm
 from django.contrib.auth import login , logout,authenticate
@@ -91,10 +91,10 @@ def user_edit_profile(request):
 		return redirect('profile')
 	context = {
 		"form":form,
-	   
+
 	}
 	return render(request, 'user_edit_profile.html', context)
-	
+
 def tasker_edit_profile(request):
 	if not request.user.is_tasker:
 		raise Http404
@@ -113,7 +113,7 @@ def tasker_edit_profile(request):
 	context = {
 		"form1":form1,
 		"form2":form2,
-	   
+
 	}
 	return render(request, 'tasker_edit_profile.html',context)
 
@@ -138,7 +138,7 @@ def accept_request(request, request_id):
 		raise Http404
 	request = Task_Request.objects.get(id=request_id)
 	request.save()
-	
+
 	return redirect("request")
 
 def request_list(request):
@@ -184,3 +184,4 @@ def sent_request_list(request):
 	'request_list': users,
 	}
 	return render(request,'request_list.html',context)
+
