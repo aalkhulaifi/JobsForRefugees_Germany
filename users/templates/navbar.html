@@ -15,28 +15,27 @@
 </div>
   </div>
 
-      {% if request.user.is_authenticated %}
-         <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-      <ul class="nav justify-content-end">
-
+   {% if request.user.is_authenticated %}
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'signout' %}">Logout</a>
+          <ul class="nav justify-content-end">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{% url 'home' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{request.user}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                  <a class="dropdown-item" href="#">Billing</a>
+                  <a class="dropdown-item" href="#">Tasks</a>
+                  <a class="dropdown-item" href="{% url 'notifications' %}">Notifications</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'signout' %}">Logout</a>
+              </li>
+          </ul>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="{% url 'home' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{request.user}}
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-            <a class="dropdown-item" href="#">Billing</a>
-            <a class="dropdown-item" href="#">Tasks</a>
-            <a class="dropdown-item" href="{% url 'notifications' %}">Notifications</a>
-          </div>
-        </li>
-</ul>
-</li>
-</ul>
+      </ul>
       {% else %}
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -53,5 +52,4 @@
    </li>
  </ul>
 </div>
-
 </nav>
