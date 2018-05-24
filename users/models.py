@@ -29,8 +29,6 @@ class Task_Request(models.Model):
 	description = models.TextField()
 	status = models.NullBooleanField()
 
-	def __str__(self):
-		return self.user.get_full_name()
 
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk
