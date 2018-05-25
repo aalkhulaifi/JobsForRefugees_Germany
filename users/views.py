@@ -117,78 +117,8 @@ def tasker_edit_profile(request):
 	}
 	return render(request, 'tasker_edit_profile.html',context)
 
-# # def notifications(request):
-# # 	return render(request, 'notifications.html')
-
-# def requests(request):
-# 	if not request.user.is_authenticated:
-# 		return redirect('signin')
-# 	form = Task_RequestForm(request.POST or None, request.FILES or None)
-# 	if form.is_valid():
-# 		form = form.save(commit=False)
-# 		form.save()
-# 		return redirect("request_list")
-# 	context = {
-# 	"form": form,
-# 	}
-# 	return render(request, 'request_form.html', context)
-
-# def accept_request(request, request_id):
-# 	# if not request.user.is_tasker:
-# 	# 	raise Http404
-# 	request = Task_Request.objects.get(id=request_id)
-# 	request.save()
-
-# 	return redirect("request_list")
-
-# # def request_list(request):
-# # 	if not request.user.is_tasker:
-# # 		raise Http404
-# # 	reqs= Task_Request.objects.all()
-# # 	users = []
-# # 	for req in reqs:
-# # 		users.append(req.user)
-# # 	users = list(set(users))
-# # 	context={
-# # 	'request_list': users,
-# # 	}
-# # 	return render(request,'request_list.html',context)
-
-# def request(request, pk):
-# 	# if not request.user.is_tasker:
-# 	# 	raise Http404
-# 	instance = Task_Request.objects.get(pk=pk)
-# 	form = Task_RequestForm(request.GET or None, request.FILES or None)
-# 	if form.is_valid():
-# 		form = form.save(commit=False)
-# 		form.save()
-# 		return redirect("request_list")
-
-# 	context = {
-# 	"form":form,
-# 	"instance": instance,
-
-# 	}
-
-# 	return render(request,'request.html', context)
-
-# def request_list(request):
-# 	# if not request.user.is_tasker:
-# 	# 	raise Http404
-# 	reqs= Task_Request.objects.all()
-# 	users = []
-# 	for req in reqs:
-# 		users.append(req.user)
-# 	users = list(set(users))
-# 	context={
-# 	'request_list': reqs,
-# 	}
-# 	return render(request,'request_list.html',context)
-
-
 # user creates a request
 
-# form.create
 def create_request(request):
 
 # user POST request to the specific (tasker_id=recipiant) tasker
