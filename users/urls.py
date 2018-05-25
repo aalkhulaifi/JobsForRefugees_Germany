@@ -13,6 +13,7 @@ urlpatterns = [
     path('request/<int:pk>/', views.request, name= 'request'),
     # path('request_approved/<int:pk>/', views.accept_request, name= 'request_approved'),
     path('request_list/', views.request_list, name = 'request_list' ),
+    # path('send/', views.requests, name = 'requests' ),
     # path('user/<int:user_id>/request/<int:tasker_id>/', views.request, name='request_tasker'),
     path('create/', views.create_request, name = 'create_request' ),
     path('accept/<int:request_id>/', views.accepted_request, name = 'accept' ),

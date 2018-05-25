@@ -27,7 +27,7 @@ class Task_Request(models.Model):
 	time = models.DateTimeField(blank=True, null=True)
 	contact_number = models.PositiveIntegerField(null=True, blank=True)
 	description = models.TextField()
-	status = models.NullBooleanField()
+	status = models.NullBooleanField(default=False)
 
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk

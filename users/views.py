@@ -117,6 +117,9 @@ def tasker_edit_profile(request):
 	}
 	return render(request, 'tasker_edit_profile.html',context)
 
+# # def notifications(request):
+# # 	return render(request, 'notifications.html')
+
 # def requests(request):
 # 	if not request.user.is_authenticated:
 # 		return redirect('signin')
@@ -236,7 +239,9 @@ def request(request, pk):
 
 def accepted_request(request, request_id):
 	request = Task_Request.objects.get(id = request_id)
+	request.status = True 
 	request.save()
+	
 #  status should turn to true
 # the it should redirect to the tasker list
 # and the object(request item/card) shows in the user request list
