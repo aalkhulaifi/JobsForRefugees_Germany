@@ -21,8 +21,8 @@ class Tasker(models.Model):
 		return self.user.get_full_name()
 
 class Task_Request(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='user' ,null=True, blank=True)
-	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE , related_name='recipient' ,null=True, blank=True)
+	user = models.ForeignKey(User, on_delete=models.CASCADE ,null=True, blank=True)
+	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE ,null=True, blank=True)
 	date = models.DateTimeField(default=timezone.now)
 	time = models.DateTimeField(blank=True, null=True)
 	contact_number = models.PositiveIntegerField(null=True, blank=True)
@@ -30,6 +30,6 @@ class Task_Request(models.Model):
 	status = models.NullBooleanField(default=False)
 	def __str__(self):
 		return 'Request from: {}'.format(self.user)
-		
+
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk

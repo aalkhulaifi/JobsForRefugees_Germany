@@ -37,6 +37,5 @@ class TaskerEditProfileForm(forms.ModelForm):
 class Task_RequestForm(forms.ModelForm):
     class Meta:
         model = Task_Request 
-        fields = ['tasker','time', 'date', 'contact_number', 'description']
+        fields = [ 'user', 'tasker','time', 'date', 'contact_number', 'description']
 
-    

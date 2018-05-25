@@ -5,7 +5,6 @@ from django.contrib.auth import login , logout,authenticate
 from .models import Tasker, User, Task_Request
 from django.conf import settings
 from django.contrib import messages
-from django.template import RequestContext
 from main import views
 def registration_path(request):
 	return render(request, 'register.html')
@@ -148,7 +147,7 @@ def request_list(request):
 
 def request(request, pk):
 	instance = Task_Request.objects.get(pk=pk)
-	form = Task_RequestForm(request.GET or None, request.FILES or None)
+	form = Task_RequestForm(request.GET or None, request.FILES or None,instance=request.user)
 	if form.is_valid():
 		form = form.save(commit=False)
 		form.save()
