@@ -120,8 +120,7 @@ def tasker_edit_profile(request):
 # user creates a request
 
 def create_request(request):
-
-# user POST request to the specific (tasker_id=recipiant) tasker
+# user POST request to the specific tasker
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		form = form.save(commit=False)
@@ -134,8 +133,8 @@ def create_request(request):
 
 # list of requests (tasks) for the tasker view
 def request_list(request):
-	# if not request.user.is_tasker:
-	# 	raise Http404
+	if not request.user.is_tasker:
+		return redirect("task_list")
 	reqs= Task_Request.objects.all()
 	users = []
 	for req in reqs:
@@ -167,7 +166,7 @@ def request(request, pk):
 
 def accepted_request(request, request_id):
 	if not request.user.is_tasker:
-		return redirect('request_list')
+		return redirect('task_list')
 	request = Task_Request.objects.get(id = request_id)
 	request.status = True 
 	request.save()
@@ -176,13 +175,11 @@ def accepted_request(request, request_id):
 
 	return redirect('request_list')
 
-
-
 # tasker deny request(delete the request)
 
 def deni_request(request, request_id):
 	if not request.user.is_tasker:
-		return redirect('request_list')
+		return redirect('task_list')
 	request = Task_Request.objects.get(id = request_id)
 	request.delete()
 
@@ -194,10 +191,6 @@ def task_list(request):
 	if request.user.is_tasker:
 		return redirect('request_list')
 	reqs= Task_Request.objects.all()
-	users = []
-	for req in reqs:
-		users.append(req.user)
-	users = list(set(users))
 	context={
 	'request_list': reqs,
 	}
