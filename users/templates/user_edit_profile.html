@@ -10,7 +10,7 @@ Edit Profile
 		 <form action="{% url 'edit_profile' %}" method="POST">
 			        {% csrf_token %}
 			        {{form|crispy}}
-			   <button type="submit" value='Save'>Update</button>
+         <input type="submit" value="Update" class="btn btn-info">
 		</form>  
   </div>
 </div>

@@ -38,7 +38,16 @@
 	<p class="card-text">contact number:{{instance.contact_number}}</p>
 	<p class="card-text">Description:{{instance.description}}</p>
 	 <p class="card-text">Status:{{instance.status}}</p>
-	 							
+	 {% if status == true %}
+
+		{% endif %}	
+	<div>
+
+		<a href="{% url 'deni' request_id=instance.id %}" class="btn btn-outline-info btn-lg">Deny</a>
+		<a href="{% url 'accept' request_id=instance.id %}" class="btn btn-outline-info btn-lg">Accept</a>
+
+	</div>
 </div>
+<br>
 <br>
 {% endblock content %}

@@ -2,6 +2,8 @@
   <a class="navbar-brand" href="{% url 'home' %}"><b>Jobs</b> <small>For Refugees</small></a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <ul class="nav justify-content-end">
+
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -48,8 +50,8 @@
           <a class="nav-link ml-auto " href="{% url 'signin' %}">Login</a>
         </li>
       </ul>
+
       {% endif %}
-   </li>
- </ul>
+   
 </div>
 </nav>
