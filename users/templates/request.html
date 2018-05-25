@@ -37,7 +37,7 @@
 	<p class="card-text">Time{{instance.time}}</p>
 	<p class="card-text">contact number:{{instance.contact_number}}</p>
 	<p class="card-text">Description:{{instance.description}}</p>
-	 <p class="card-text" id="myid"><b onclick="changeColor('myid'); return false;">Status:</b>{{instance.status}}</p>
+	 <p class="card-text" ><b>Status:</b>{{instance.status}}</p>
 
 	<div>
        	{% if request.user.is_tasker %}
@@ -45,20 +45,21 @@
 			<a href="{% url 'deni' request_id=instance.id %}" class="btn btn-outline-info btn-lg">Deny</a>
 			{% if status == true %}
 
-			<a href="{% url 'accept' request_id=instance.id %}" class="btn btn-outline-info btn-lg" onclick="changeColor('myid'); return true;">Accept</a>
+			<a href="{% url 'accept' request_id=instance.id %}" class="btn btn-outline-info btn-lg">Accept</a>
 			{% endif %}	
 	    {% endif %}
+			{% if instance.status == True %}
 
+      	{% if not request.user.is_tasker %}
+			{#  proceed to a Billing page #} 
+
+			<a href="#" class="btn btn-outline-info btn-lg">Book a Task</a>
+	    {% endif %}
+	    {% endif %}
 	</div>
 	<br>
 </div>
 <br>
-<script>
-function changeColor(id)
-{
-  document.getElementById(id).style.color = "#ff0000"; // forecolor
-  document.getElementById(id).style.backgroundColor =  "#000000"; // backcolor
-}
-</script>
+
 
 {% endblock content %}
