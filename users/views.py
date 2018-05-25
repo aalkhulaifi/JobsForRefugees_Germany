@@ -148,8 +148,6 @@ def request_list(request):
 
 
 def request(request, pk):
-	# if not request.user.is_tasker:
-	# 	raise Http404
 	instance = Task_Request.objects.get(pk=pk)
 	form = Task_RequestForm(request.GET or None, request.FILES or None)
 	if form.is_valid():
@@ -168,12 +166,12 @@ def request(request, pk):
 #  tasker view request either accept(if accept request status = true) shows in tasks_list
 
 def accepted_request(request, request_id):
+	if not request.user.is_tasker:
+		return redirect('request_list')
 	request = Task_Request.objects.get(id = request_id)
 	request.status = True 
 	request.save()
 	
-#  status should turn to true
-# the it should redirect to the tasker list
 # and the object(request item/card) shows in the user request list
 
 	return redirect('request_list')
@@ -183,16 +181,24 @@ def accepted_request(request, request_id):
 # tasker deny request(delete the request)
 
 def deni_request(request, request_id):
+	if not request.user.is_tasker:
+		return redirect('request_list')
 	request = Task_Request.objects.get(id = request_id)
 	request.delete()
 
 	return redirect('request_list')
 
 
-
-
-
-
-
-
 # the user sent request list show the status true if the user(tasker) accepted the request
+def task_list(request):
+	if request.user.is_tasker:
+		return redirect('request_list')
+	reqs= Task_Request.objects.all()
+	users = []
+	for req in reqs:
+		users.append(req.user)
+	users = list(set(users))
+	context={
+	'request_list': reqs,
+	}
+	return render(request,'task_list.html',context)
