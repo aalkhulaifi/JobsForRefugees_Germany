@@ -130,10 +130,11 @@ def create_request(request):
 	}
 	return render(request, 'request_form.html', context)
 
-# list of requests (filtered by id) the (tasks) for the tasker recieve from the user
+# list of requests (filtered by id) (tasks) for the tasker view
 def request_list(request):
 	if not request.user.is_tasker:
 		return redirect("task_list")
+# Can I filter the request by the current tasker id (requests that had been sent to this particular tasker)? 
 	reqs= Task_Request.objects.all()
 	users = []
 	for req in reqs:
@@ -189,6 +190,7 @@ def deni_request(request, request_id):
 def task_list(request):
 	if request.user.is_tasker:
 		return redirect('request_list')
+# Can I filter the request by the current user id ? 
 	reqs= Task_Request.objects.all()
 	context={
 	'request_list': reqs,
