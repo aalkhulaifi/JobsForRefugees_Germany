@@ -28,6 +28,7 @@ class Task_Request(models.Model):
 	contact_number = models.PositiveIntegerField(null=True, blank=True)
 	description = models.TextField()
 	status = models.NullBooleanField(default=False)
+	
 	def __str__(self):
 		return 'Request from: {}'.format(self.user)
 

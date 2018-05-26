@@ -130,7 +130,7 @@ def create_request(request):
 	}
 	return render(request, 'request_form.html', context)
 
-# list of requests (tasks) for the tasker view
+# list of requests (filtered by id) the (tasks) for the tasker recieve from the user
 def request_list(request):
 	if not request.user.is_tasker:
 		return redirect("task_list")
@@ -185,7 +185,7 @@ def deni_request(request, request_id):
 	return redirect('request_list')
 
 
-# the user sent request list show the status true if the user(tasker) accepted the request
+# the user sent request list (filtered by id) show the status true if the user(tasker) accepted the request
 def task_list(request):
 	if request.user.is_tasker:
 		return redirect('request_list')
