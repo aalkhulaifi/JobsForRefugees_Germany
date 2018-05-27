@@ -6,6 +6,8 @@ from .models import Tasker, User, Task_Request
 from django.conf import settings
 from django.contrib import messages
 from main import views
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def registration_path(request):
 	return render(request, 'register.html')
 
@@ -133,7 +135,11 @@ def request_list(request):
 	if not request.user.is_tasker:
 		return redirect("task_list")
 # filter the request by the current tasker id (requests that had been sent to this particular tasker) 
-	reqs= Task_Request.objects.filter(tasker=request.user.tasker)
+	reqs = Task_Request.objects.filter(tasker=request.user.tasker)
+	paginator = Paginator(reqs, 5) # Show 5 requests per page
+
+	page = request.GET.get('page')
+	reqs = paginator.get_page(page)
 	context={
 	'request_list': reqs,
 	}
@@ -187,6 +193,9 @@ def task_list(request):
 		return redirect('request_list')
 # filter the request by the current user id 
 	reqs= Task_Request.objects.filter(user=request.user.is_authenticated)
+	paginator = Paginator(reqs, 5) # Show 5 requests per page
+	page = request.GET.get('page')
+	reqs = paginator.get_page(page)
 	context={
 	'request_list': reqs,
 	

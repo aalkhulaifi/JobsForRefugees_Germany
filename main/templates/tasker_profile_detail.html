@@ -47,4 +47,5 @@
     <p>areas:{% for area in user.areas.all %} -{{area}}{% endfor %}</p>
     <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'create_request' %}">Send a Request</a></p>
   </div>
+  <br>
 {% endblock content %}

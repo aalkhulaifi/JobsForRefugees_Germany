@@ -36,7 +36,7 @@ def list(request):
 			categories__id=categories,
 			areas__id=areas
 			)
-	paginator = Paginator(categories, 3) 
+	paginator = Paginator(categories, 5) 
 	page = request.GET.get('page')
 	try:
 		objects = paginator.page(page)
