@@ -27,10 +27,15 @@ class Task_Request(models.Model):
 	time = models.DateTimeField(blank=True, null=True)
 	contact_number = models.PositiveIntegerField(null=True, blank=True)
 	description = models.TextField()
-	status = models.NullBooleanField(default=False)
+	TASK_CHOICES = (
+        ('Approved', 'Approved'),
+        ('Denied', 'Denied'),
+        ('Pending', 'Pending'),
+    )
+	status = models.CharField(max_length=20, choices=TASK_CHOICES, default='Pending')
 	
 	def __str__(self):
-		return 'Request from: {}'.format(self.user)
+		return 'Request : {}'.format(self.user)
 
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk

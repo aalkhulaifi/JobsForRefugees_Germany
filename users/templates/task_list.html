@@ -13,12 +13,10 @@
 	    margin: auto;
 	    text-align: center;
 	}
-
 	.title {
 	    color: grey;
 	    font-size: 18px;
 	}
-
 	button {
 	    border: none;
 	    outline: 0;
@@ -31,14 +29,13 @@
 	    width: 100%;
 	    font-size: 18px;
 	}
-
 {% for user in request_list %}
         </style>
         <br>
         <div class="card">
-        <a href=" {% url 'request' user.id %}">Request Sent To: {{user.tasker}}</a><br>
+        	<a href=" {% url 'request' user.id %}">{{user}}</a><br>
 
-      </div>  
+        </div>  
 {% endfor %}
 
 {% endblock content %}

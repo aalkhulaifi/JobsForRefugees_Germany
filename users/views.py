@@ -116,10 +116,8 @@ def tasker_edit_profile(request):
 	}
 	return render(request, 'tasker_edit_profile.html',context)
 
-# user creates a request
 
 def create_request(request):
-# user POST request to the specific tasker
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		form = form.save(commit=False)
@@ -135,18 +133,14 @@ def request_list(request):
 	if not request.user.is_tasker:
 		return redirect("task_list")
 # Can I filter the request by the current tasker id (requests that had been sent to this particular tasker)? 
-	reqs= Task_Request.objects.all()
-	users = []
-	for req in reqs:
-		users.append(req.user)
-	users = list(set(users))
+	reqs= Task_Request.objects.filter(tasker=request.user.tasker)
 	context={
 	'request_list': reqs,
 	}
 	return render(request,'request_list.html',context)
 
 
-def request(request, pk):
+def sent_task(request, pk):
 	instance = Task_Request.objects.get(pk=pk)
 	form = Task_RequestForm(request.GET or None, request.FILES or None,instance=request.user)
 	if form.is_valid():
@@ -168,7 +162,7 @@ def accepted_request(request, request_id):
 	if not request.user.is_tasker:
 		return redirect('task_list')
 	request = Task_Request.objects.get(id = request_id)
-	request.status = True 
+	request.status = 'Approved'
 	request.save()
 	
 # and the object(request item/card) shows in the user request list
@@ -181,7 +175,8 @@ def deni_request(request, request_id):
 	if not request.user.is_tasker:
 		return redirect('task_list')
 	request = Task_Request.objects.get(id = request_id)
-	request.delete()
+	request.status = 'Denied'
+	request.save()
 
 	return redirect('request_list')
 
@@ -191,8 +186,9 @@ def task_list(request):
 	if request.user.is_tasker:
 		return redirect('request_list')
 # Can I filter the request by the current user id ? 
-	reqs= Task_Request.objects.all()
+	reqs= Task_Request.objects.filter(user=request.user.is_authenticated)
 	context={
 	'request_list': reqs,
+	
 	}
 	return render(request,'task_list.html',context)
