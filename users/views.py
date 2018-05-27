@@ -120,6 +120,8 @@ def tasker_edit_profile(request):
 
 
 def create_request(request):
+	if request.user.is_anonymous:
+		return redirect('signin')	
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		form = form.save(commit=False)
