@@ -35,7 +35,7 @@ class Task_Request(models.Model):
 	status = models.CharField(max_length=20, choices=TASK_CHOICES, default='Pending')
 	
 	def __str__(self):
-		return 'Request : {}'.format(self.user)
+		return '{}'.format(self.user)
 
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk

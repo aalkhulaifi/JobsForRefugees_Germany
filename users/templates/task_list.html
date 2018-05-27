@@ -33,7 +33,7 @@
         </style>
         <br>
         <div class="card">
-        	<a href=" {% url 'request' user.id %}">{{user}}</a><br>
+        	<a href=" {% url 'request' user.id %}">Request Sent To: {{user.tasker}}</a><br>
 
         </div>  
 {% endfor %}
