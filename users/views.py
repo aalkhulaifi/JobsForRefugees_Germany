@@ -132,7 +132,7 @@ def create_request(request):
 def request_list(request):
 	if not request.user.is_tasker:
 		return redirect("task_list")
-# Can I filter the request by the current tasker id (requests that had been sent to this particular tasker)? 
+# filter the request by the current tasker id (requests that had been sent to this particular tasker) 
 	reqs= Task_Request.objects.filter(tasker=request.user.tasker)
 	context={
 	'request_list': reqs,
@@ -156,7 +156,7 @@ def sent_task(request, pk):
 
 	return render(request,'request.html', context)
 
-#  tasker view request either accept(if accept request status = true) shows in tasks_list
+#  tasker view request either accept(if accept request status = Approved) shows in tasks_list and request_list
 
 def accepted_request(request, request_id):
 	if not request.user.is_tasker:
@@ -185,7 +185,7 @@ def deni_request(request, request_id):
 def task_list(request):
 	if request.user.is_tasker:
 		return redirect('request_list')
-# Can I filter the request by the current user id ? 
+# filter the request by the current user id 
 	reqs= Task_Request.objects.filter(user=request.user.is_authenticated)
 	context={
 	'request_list': reqs,
