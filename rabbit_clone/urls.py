@@ -3,14 +3,12 @@ from django.contrib import admin
 from users import views
 from main import views
 from api import views
-from notifications import views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
-    path('notifications/', include('notifications.urls')),
     path('main/', include('main.urls')),
     path('api/', include('api.urls')),
 ]

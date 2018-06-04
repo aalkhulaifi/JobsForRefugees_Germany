@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse, Http404
 from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm,Task_RequestForm
@@ -214,3 +215,10 @@ def task_list(request):
 	
 	}
 	return render(request,'task_list.html',context)
+# notification request
+# def get_task_request(request):
+#     task_request = Task_Request.objects.filter(user=request.user.is_authenticated)
+#     data = {
+#         "notifictions":task_request,
+#     }
+#     return JsonResponse(data, safe=False)

@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'main',
     'users',
     'api',
-    'notifications',
     'rest_framework',
     'crispy_forms',
 ]
