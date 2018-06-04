@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import UserCreateAPIView,UserLoginAPIView ,TaskerCreateAPIView,TaskerLoginAPIView,Task_RequestAPIView,Task_RequestListView, Task_RequestDetailView,Task_RequestUpdateView 
-# ,Task_RequestDeleteView
 
 urlpatterns = [
 	path('signup/', UserCreateAPIView.as_view(), name='signup'),
@@ -11,6 +10,5 @@ urlpatterns = [
 	path('list/', Task_RequestListView.as_view(), name='list'),
 	path('detail/<int:object_id>/', Task_RequestDetailView.as_view(), name='detail'),
 	path('update/<int:object_id>/', Task_RequestUpdateView.as_view(), name='update'),
-	# path('delete/<int:object_id>/', Task_RequestDeleteView.as_view(), name='delete'),
 
 ]

@@ -56,6 +56,7 @@ class Task_RequestDetailView(RetrieveAPIView):
 	serializer_class = Task_RequestCreateSerializer
 	lookup_field = 'id'
 	lookup_url_kwarg = 'object_id'
+	
 # task request Update view
 class Task_RequestUpdateView(RetrieveUpdateAPIView):
 	queryset = Task_Request.objects.all()
@@ -63,9 +64,3 @@ class Task_RequestUpdateView(RetrieveUpdateAPIView):
 	lookup_field = 'id'
 	lookup_url_kwarg = 'object_id'
 
-# task delete view
-# class Task_RequestDeleteView(DestroyAPIView):
-# 	queryset = Task_Request.objects.all()
-# 	serializer_class = Task_RequestCreateSerializer
-# 	lookup_field = 'id'
-# 	lookup_url_kwarg = 'object_id'
