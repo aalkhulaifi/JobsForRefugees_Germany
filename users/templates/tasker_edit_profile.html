@@ -5,8 +5,32 @@
 Edit Profile
 {% endblock title %}
 {% block content %}
+<style type="text/css">
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+      max-width: 490px;
+      margin: auto;
+      text-align: center;
+  }
+  .title {
+      color: grey;
+      font-size: 18px;
+  }
+  button {
+      border: none;
+      outline: 0;
+      display: inline-block;
+      padding: 8px;
+      color: white;
+      background-color: #000;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+  }
+  </style>
 <div class="container" >
-	<div class="center" class="card card-body">
+	<div class="card" >
 		 <form action="{% url 'tasker_edit_profile' %}" method="POST" enctype="multipart/form-data">
 	        {% csrf_token %}
 	        {{form1|crispy}}
