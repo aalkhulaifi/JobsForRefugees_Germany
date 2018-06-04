@@ -1,7 +1,8 @@
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
+from users.models import Task_Request
 from .serializers import UserCreateSerializer,UserLoginSerializer, TaskerCreateSerializer,TaskerLoginSerializer, Task_RequestCreateSerializer
 # User create and signin view
 class UserCreateAPIView(CreateAPIView):
@@ -40,3 +41,7 @@ class TaskerLoginAPIView(APIView):
 class Task_RequestAPIView(CreateAPIView):
 	serializer_class = Task_RequestCreateSerializer
 
+# Task RequestList 
+class Task_RequesListView(ListAPIView):
+    queryset = Task_Request.objects.all()
+    serializer_class = Task_RequestCreateSerializer
