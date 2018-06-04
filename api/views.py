@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, ListAPIView,RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView,RetrieveAPIView ,RetrieveUpdateAPIView ,DestroyAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
@@ -41,15 +41,31 @@ class TaskerLoginAPIView(APIView):
 class Task_RequestAPIView(CreateAPIView):
 	serializer_class = Task_RequestCreateSerializer
 
+	def perform_create(self, serializer):
+		serializer.save(author=self.request.user)
+
 # Task RequestList 
-class Task_RequesListView(ListAPIView):
-    queryset = Task_Request.objects.all()
-    serializer_class = Task_RequestCreateSerializer
+class Task_RequestListView(ListAPIView):
+	queryset = Task_Request.objects.all()
+	serializer_class = Task_RequestCreateSerializer
 
 # task request detail view
 
-class Task_RequesDetailView(RetrieveAPIView):
-    queryset = Task_Request.objects.all()
-    serializer_class = Task_RequestCreateSerializer
-    lookup_field = 'id'
-    lookup_url_kwarg = 'object_id'
+class Task_RequestDetailView(RetrieveAPIView):
+	queryset = Task_Request.objects.all()
+	serializer_class = Task_RequestCreateSerializer
+	lookup_field = 'id'
+	lookup_url_kwarg = 'object_id'
+# task request Update view
+class Task_RequestUpdateView(RetrieveUpdateAPIView):
+	queryset = Task_Request.objects.all()
+	serializer_class = Task_RequestCreateSerializer
+	lookup_field = 'id'
+	lookup_url_kwarg = 'object_id'
+
+# task delete view
+class Task_RequestDeleteView(DestroyAPIView):
+	queryset = Task_Request.objects.all()
+	serializer_class = Task_RequestCreateSerializer
+	lookup_field = 'id'
+	lookup_url_kwarg = 'object_id'
