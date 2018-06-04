@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView,RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
@@ -45,3 +45,11 @@ class Task_RequestAPIView(CreateAPIView):
 class Task_RequesListView(ListAPIView):
     queryset = Task_Request.objects.all()
     serializer_class = Task_RequestCreateSerializer
+
+# task request detail view
+
+class Task_RequesDetailView(RetrieveAPIView):
+    queryset = Task_Request.objects.all()
+    serializer_class = Task_RequestCreateSerializer
+    lookup_field = 'id'
+    lookup_url_kwarg = 'object_id'
