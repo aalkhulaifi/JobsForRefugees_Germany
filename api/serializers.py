@@ -1,7 +1,10 @@
-from users.models import User
+from users.models import User, Tasker, Task_Request
+from main.models import Category, Area
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
+from django.utils import timezone
 
+# User signup and signin
 class UserCreateSerializer(serializers.ModelSerializer):
 	# To hash the password, the password is set the write_only attribute to True so it doesn't show in the JSON response
 	password = serializers.CharField(write_only=True) 
@@ -51,3 +54,51 @@ class UserLoginSerializer(serializers.Serializer):
 		# by including it in the data dictionary
 		data["token"] = token
 		return data
+
+# tasker signup and signin
+
+class TaskerCreateSerializer(serializers.ModelSerializer):
+	password = serializers.CharField(write_only=True) 
+
+	class Meta:
+		model = Tasker
+		fields = ['user', 'profile_picture', 'profession', 'rate', 'categories', 'areas', 'age', 'number']
+
+		def create(self, validated_data):
+			user = validated_data['user']
+			password = validated_data['password']
+			new_user = User(user=user)
+			new_user.set_password(password)
+			new_user.save()
+			return validated_data
+
+class TaskerLoginSerializer(serializers.Serializer):
+	user = serializers.CharField()
+	password = serializers.CharField(write_only=True)  
+	token = serializers.CharField(allow_blank=True, read_only=True)
+
+
+	def validate(self, data):
+		user = data.get('user')
+		password = data.get('password')
+
+		try:
+			user_obj = User.objects.get(user=user)
+		except:
+			raise serializers.ValidationError("This user does not exist")
+		if not user_obj.check_password(password):
+			raise serializers.ValidationError("Incorrect user/password combination!")
+		
+		jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+		jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+		payload = jwt_payload_handler(user_obj)
+		token = jwt_encode_handler(payload)
+		data["token"] = token
+		return data
+
+# Request serializer
+class Task_RequestCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Task_Request
+		fields = '__all__'
