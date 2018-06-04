@@ -62,7 +62,7 @@ class TaskerCreateSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Tasker
-		fields = ['user', 'profile_picture', 'profession', 'rate', 'categories', 'areas', 'age', 'number']
+		fields = ['user', 'profile_picture', 'profession', 'rate', 'categories', 'areas', 'age', 'number','password']
 
 		def create(self, validated_data):
 			user = validated_data['user']
