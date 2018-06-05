@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,8 +40,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'users',
+    'api',
+    'rest_framework',
     'crispy_forms',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=12),
+}
+
 DENIED_REQUEST = 50
 
 REQUEST_TAGS={
@@ -48,6 +62,7 @@ REQUEST_TAGS={
     DENIED_REQUEST : 'REQUEST_REJECTED',
 
 }
+
 
 TEMPLATE_CONTEXT_PROCESSORS ={
    'django.contrib.auth.context_processors.auth',

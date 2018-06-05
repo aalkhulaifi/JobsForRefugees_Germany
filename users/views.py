@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse, Http404
 from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm,Task_RequestForm
@@ -121,7 +122,8 @@ def tasker_edit_profile(request):
 
 def create_request(request):
 	if request.user.is_anonymous:
-		return redirect('signin')	
+		return redirect('signin')
+	# Is there a way to assign the current user as a sender(creator) of this request by default?
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		form = form.save(commit=False)
@@ -150,7 +152,7 @@ def request_list(request):
 
 def sent_task(request, pk):
 	instance = Task_Request.objects.get(pk=pk)
-	form = Task_RequestForm(request.GET or None, request.FILES or None,instance=request.user)
+	form = Task_RequestForm(request.GET or None, request.FILES or None)
 	if form.is_valid():
 		form = form.save(commit=False)
 		form.save()
@@ -177,7 +179,7 @@ def accepted_request(request, request_id):
 
 	return redirect('request_list')
 
-# tasker deny request(delete the request)
+# if tasker deny request,status = Approved
 
 def deni_request(request, request_id):
 	if not request.user.is_tasker:
@@ -190,16 +192,33 @@ def deni_request(request, request_id):
 
 
 # the user sent request list (filtered by id) show the status true if the user(tasker) accepted the request
+
 def task_list(request):
 	if request.user.is_tasker:
 		return redirect('request_list')
-# filter the request by the current user id 
+# filter the request by the current user id
+# doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
 	reqs= Task_Request.objects.filter(user=request.user.is_authenticated)
 	paginator = Paginator(reqs, 5) # Show 5 requests per page
 	page = request.GET.get('page')
 	reqs = paginator.get_page(page)
+	try:
+		reqs = paginator.page(page)
+
+	except PageNotAnInteger:
+		reqs = paginator.page(1)
+	except EmptyPage:
+		reqs = paginator.page(paginator.num_pages)
+		
 	context={
 	'request_list': reqs,
 	
 	}
 	return render(request,'task_list.html',context)
+# notification request
+# def get_task_request(request):
+#     task_request = Task_Request.objects.filter(user=request.user.is_authenticated)
+#     data = {
+#         "notifictions":task_request,
+#     }
+#     return JsonResponse(data, safe=False)

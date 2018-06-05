@@ -2,10 +2,25 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<style type="text/css">
+  
+   .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+      max-width: 900px;
+      height: 450px;
+      margin: auto;
+      text-align: center;
+    justify-content: center;
+  }
+</style>
+<br>
+<br>
+
+    <section class="card">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6 text-center">
- <div class="menu-wrap">
+          <div class="col-sm-12 text-center">
+      
 
       <ul class="dropdown">
   <form action="{% url 'list'%}" >
@@ -16,5 +31,5 @@
 </div>
 </div>
 </div>
-</div>
+</section>
 {% endblock content %}
