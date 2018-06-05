@@ -222,3 +222,22 @@ def task_list(request):
 #         "notifictions":task_request,
 #     }
 #     return JsonResponse(data, safe=False)
+
+# first, once the Task_Request object is saved(Submitted) by the user. The tasker gets a notification
+#  TODO: use api url to make an ajax (counter) on the bell(notification) icon in the navbar/for the tasker
+
+
+
+
+
+# ajax for rating show in the list of taskers and in the detail page of the chosen tasker
+
+
+
+
+# Once the tasker accept the task request, the user GETs a notification using ajax 
+
+
+
+# Once the tasker denies the task request, the user GETs a notification using ajax
+
