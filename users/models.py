@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from main.models import Category, Area
 from django.utils import timezone
-
+from django.db.models.signals import post_save
 class User(AbstractUser):
 	email = models.EmailField(unique=True)
 	is_tasker = models.BooleanField(default=False)
@@ -40,22 +40,21 @@ class Task_Request(models.Model):
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk
 
+	def create_notification(sender, **kwargs):
+		if kwargs['created']:
+			task_request = Notification.objects.create(user=kwargs['instance'])
+
+	post_save.connect(create_notification, sender=User)
+
+
 class Notification(models.Model):
+	notification = models.ForeignKey(Task_Request, on_delete=models.CASCADE ,null=True, blank=True)
+	message = models.CharField(max_length=255)
 	user = models.ForeignKey(User, on_delete=models.CASCADE ,null=True, blank=True)
 	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE ,null=True, blank=True)
-	date = models.DateTimeField(default=timezone.now)
 	time = models.DateTimeField(blank=True, null=True)
-	contact_number = models.PositiveIntegerField(null=True, blank=True)
-	description = models.TextField()
-	TASK_CHOICES = (
-        ('Approved', 'Approved'),
-        ('Denied', 'Denied'),
-        ('Pending', 'Pending'),
-    )
-	status = models.CharField(max_length=20, choices=TASK_CHOICES, default='Pending')
+	mark_as_read = models.CharField(max_length=20)
 	
 	def __str__(self):
 		return '{}'.format(self.user)
 
-	def get_absolute_url(self):
-		return "request/%d/view" % self.pk
