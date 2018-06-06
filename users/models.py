@@ -2,7 +2,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from main.models import Category, Area
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import m2m_changed
 from django.db.models.signals import post_save
+
 class User(AbstractUser):
 	email = models.EmailField(unique=True)
 	is_tasker = models.BooleanField(default=False)
@@ -41,7 +44,7 @@ class Task_Request(models.Model):
 		return "request/%d/view" % self.pk
 
 	def create_notification(sender, **kwargs):
-		if kwargs['created']:
+		for key, value in kwargs.items():
 			task_request = Notification.objects.create(user=kwargs['instance'])
 
 	post_save.connect(create_notification, sender=User)
@@ -57,4 +60,3 @@ class Notification(models.Model):
 	
 	def __str__(self):
 		return '{}'.format(self.user)
-
