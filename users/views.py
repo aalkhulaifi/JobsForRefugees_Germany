@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse, Http404
 from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm,Task_RequestForm
 from django.contrib.auth import login , logout,authenticate
-from .models import Tasker, User, Task_Request
+from .models import Tasker, User, Task_Request,Notification
 from django.conf import settings
 from django.contrib import messages
 from main import views
@@ -225,8 +225,54 @@ def task_list(request):
 
 # first, once the Task_Request object is saved(Submitted) by the user. The tasker gets a notification
 #  TODO: use api url to make an ajax (counter) on the bell(notification) icon in the navbar/for the tasker
+# for tasker notification
+def tasker_notification(request):
+	if request.user.is_tasker:
+		return redirect('request_list')
+# filter the request by the current user id
+# doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
+	reqs= Notification.objects.filter(tasker=request.user.tasker)
 
+	context={
+	'request_list': reqs,
+	
+	}
+	return render(request,'tasker_notification.html',context)
 
+# mark_asread
+def tasker_notifications(request,request_id):
+	if not request.user.is_tasker:
+		return redirect('task_list')
+	request = Notification.objects.get(id = request_id)
+	request.mark_as_read = True
+	request.save()
+
+	return redirect('request_list')
+
+# User notification if the tasker accepts the request, the User gets a notification for the specific request
+# list of accepted/denied requests
+def user_notification(request):
+	if request.user.is_tasker:
+		return redirect('task_list')
+# filter the request by the current user id
+# doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
+	reqs= Notification.objects.filter(user=request.user.is_authenticated)
+
+	context={
+	'request_list': reqs,
+	
+	}
+	return render(request,'tasker_notification.html',context)
+
+# mark_asread
+def user_notifications(request,request_id):
+	if not request.user.is_tasker:
+		return redirect('request_list')
+	request = Notification.objects.get(id=request_id)
+	request.mark_as_read = True
+	request.save()
+
+	return redirect('task_list')
 
 
 
