@@ -45,7 +45,7 @@ class Task_Request(models.Model):
 
 	def create_notification(sender, **kwargs):
 		for key, value in kwargs.items():
-			task_request = Notification.objects.create(user=kwargs['instance'])
+			task_request = Notification.objects.create()
 
 	post_save.connect(create_notification, sender=User)
 
@@ -60,3 +60,4 @@ class Notification(models.Model):
 	
 	def __str__(self):
 		return '{}'.format(self.user)
+
