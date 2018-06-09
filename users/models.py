@@ -4,7 +4,7 @@ from main.models import Category, Area
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 class User(AbstractUser):
 	email = models.EmailField(unique=True)
@@ -43,8 +43,9 @@ class Task_Request(models.Model):
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk
 
-	def create_notification(sender, **kwargs):
-		for key, value in kwargs.items():
+	@receiver(post_save, sender=User)
+
+	def create_notification(sender, instance, **kwargs):
 			task_request = Notification.objects.create()
 
 	post_save.connect(create_notification, sender=User)
@@ -60,4 +61,3 @@ class Notification(models.Model):
 	
 	def __str__(self):
 		return '{}'.format(self.user)
-
