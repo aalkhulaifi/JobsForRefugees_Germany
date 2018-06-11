@@ -1,19 +1,16 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-   Requests List
+   Notification
 
 {% endblock title %}
 {% block content %}
 <h1>Sent task List:</h1>
-{% for user in request_list %}
 
-        </style>
         <br>
         <div class="card">
         	<a href=" {% url 'user_notifications' user.id %}">Request Sent To: {{user}}</a><br>
         </div> 
         <br> 
-{% endfor %}
 {% endblock content %}
  

@@ -43,21 +43,11 @@ class Task_Request(models.Model):
 	def get_absolute_url(self):
 		return "request/%d/view" % self.pk
 
-	@receiver(post_save, sender=User)
 
-	def create_notification(sender, instance, **kwargs):
-			task_request = Notification.objects.create()
-
-	post_save.connect(create_notification, sender=User)
 
 
 class Notification(models.Model):
-	notification = models.ForeignKey(Task_Request, on_delete=models.CASCADE ,null=True, blank=True)
-	message = models.CharField(max_length=255)
-	user = models.ForeignKey(User, on_delete=models.CASCADE ,null=True, blank=True)
-	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE ,null=True, blank=True)
-	time = models.DateTimeField(blank=True, null=True)
-	mark_as_read = models.CharField(max_length=20)
-	
-	def __str__(self):
-		return '{}'.format(self.user)
+	sender = models.CharField(max_length=20)
+	notification = models.ForeignKey(Task_Request, on_delete=models.CASCADE)
+
+

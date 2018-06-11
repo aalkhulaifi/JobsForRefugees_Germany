@@ -224,15 +224,14 @@ def task_list(request):
 #     return JsonResponse(data, safe=False)
 
 # first, once the Task_Request object is saved(Submitted) by the user. The tasker gets a notification
-#  TODO: use api url to make an ajax (counter) on the bell(notification) icon in the navbar/for the tasker
+#  api url to make an ajax (counter) on the bell(notification) icon in the navbar/for the tasker
 # for tasker notification
 def tasker_notification(request):
-	if request.user.is_tasker:
-		return redirect('request_list')
+	# main = request.user
+	reqs = Notification.objects.all()
+	
 # filter the request by the current user id
 # doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
-	reqs= Notification.objects.filter(tasker=request.user.tasker)
-
 	context={
 	'request_list': reqs,
 	
@@ -240,24 +239,22 @@ def tasker_notification(request):
 	return render(request,'tasker_notification.html',context)
 
 # mark_asread
-def tasker_notifications(request,request_id):
-	if not request.user.is_tasker:
-		return redirect('task_list')
-	request = Notification.objects.get(id = request_id)
-	request.mark_as_read = True
-	request.save()
+def tasker_notifications(request, pk):
+	instance = Notification.objects.get(pk=pk)
 
-	return redirect('request_list')
+	context = {
+	"instance": instance,
+
+	}
+	return render(request,'tasker_notifications.html',context)
 
 # User notification if the tasker accepts the request, the User gets a notification for the specific request
 # list of accepted/denied requests
 def user_notification(request):
-	if request.user.is_tasker:
-		return redirect('task_list')
+
 # filter the request by the current user id
 # doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
 	reqs= Notification.objects.filter(user=request.user.is_authenticated)
-
 	context={
 	'request_list': reqs,
 	
@@ -266,24 +263,12 @@ def user_notification(request):
 
 # mark_asread
 def user_notifications(request,request_id):
-	if not request.user.is_tasker:
-		return redirect('request_list')
-	request = Notification.objects.get(id=request_id)
-	request.mark_as_read = True
-	request.save()
+	instance = Notification.objects.get(pk=pk)
 
-	return redirect('task_list')
+	context = {
+	"instance": instance,
 
+	}
+	return render(request,'user_notifications.html',context)
 
-
-# ajax for rating show in the list of taskers and in the detail page of the chosen tasker
-
-
-
-
-# Once the tasker accept the task request, the user GETs a notification using ajax 
-
-
-
-# Once the tasker denies the task request, the user GETs a notification using ajax
 
