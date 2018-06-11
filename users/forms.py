@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Tasker, Task_Request
+from .models import Tasker, Task_Request, Notification
 from django.contrib.auth.forms import UserCreationForm
 User = get_user_model()
 
@@ -39,3 +39,7 @@ class Task_RequestForm(forms.ModelForm):
         model = Task_Request 
         fields = [ 'user', 'tasker','time', 'date', 'contact_number', 'description']
 
+class NotificationForm(forms.ModelForm):
+    class Meta:
+        model = Notification
+        exclude = ['user']

@@ -261,8 +261,7 @@ def user_notification(request):
 	}
 	return render(request,'user_notification.html',context)
 
-# mark_asread
-def user_notifications(request,request_id):
+def user_notifications(request,pk):
 	instance = Notification.objects.get(pk=pk)
 
 	context = {

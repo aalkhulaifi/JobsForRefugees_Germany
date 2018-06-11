@@ -3,7 +3,6 @@ from django.db import models
 from main.models import Category, Area
 from django.utils import timezone
 from django.dispatch import receiver
-from django.db.models.signals import m2m_changed
 from django.db.models.signals import post_save, pre_save
 
 class User(AbstractUser):
@@ -45,9 +44,9 @@ class Task_Request(models.Model):
 
 
 
-
 class Notification(models.Model):
 	sender = models.CharField(max_length=20)
 	notification = models.ForeignKey(Task_Request, on_delete=models.CASCADE)
+
 
 
