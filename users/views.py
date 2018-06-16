@@ -227,16 +227,6 @@ def task_list(request):
 	}
 	return render(request,'task_list.html',context)
 
-def tasker_notification(request,tasker_id):
-	# main = request.user
-	reqs = Notification.objects.all()
-# filter the request by the current user id
-# doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
-	context={
-	'request_list': reqs,
-	
-	}
-	return render(request,'tasker_notification.html',context)
 
 def tasker_notification_list(request):
 	reqs = Notification.objects.all()
