@@ -25,8 +25,8 @@ class Tasker(models.Model):
 class Task_Request(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE ,null=True, blank=True)
 	tasker = models.ForeignKey(Tasker,on_delete=models.CASCADE ,null=True, blank=True)
-	date = models.DateTimeField(default=timezone.now)
-	time = models.DateTimeField(blank=True, null=True)
+	date = models.DateField(auto_now=False,auto_now_add=False)
+	time = models.TimeField(auto_now=False,auto_now_add=False)
 	contact_number = models.PositiveIntegerField(null=True, blank=True)
 	description = models.TextField()
 	TASK_CHOICES = (
@@ -35,18 +35,16 @@ class Task_Request(models.Model):
         ('Pending', 'Pending'),
     )
 	status = models.CharField(max_length=20, choices=TASK_CHOICES, default='Pending')
-	
-	def __str__(self):
-		return '{}'.format(self.user)
-
-	def get_absolute_url(self):
-		return "request/%d/view" % self.pk
 
 
 
 class Notification(models.Model):
-	sender = models.CharField(max_length=20)
+	# ForeignKey to the user model
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	notification = models.ForeignKey(Task_Request, on_delete=models.CASCADE)
 
+	
+	def __str__(self):
+		return '{}'.format(self.user)
 
 

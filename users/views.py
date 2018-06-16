@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib import messages
 from main import views
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 
 def registration_path(request):
 	return render(request, 'register.html')
@@ -120,17 +121,27 @@ def tasker_edit_profile(request):
 	return render(request, 'tasker_edit_profile.html',context)
 
 
-def create_request(request):
+def create_request(request, tasker_id):
 	if request.user.is_anonymous:
 		return redirect('signin')
 	# Is there a way to assign the current user as a sender(creator) of this request by default?
+	tasker = Tasker.objects.get(id=tasker_id)
+
+	# widegts for time and date!
 	form = Task_RequestForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
-		form = form.save(commit=False)
-		form.save()
+		task = form.save(commit=False)
+		task.user=request.user
+		task.tasker = tasker
+		task.save()
+
+		Notification.objects.create(user=tasker.user, notification=task)
+		messages.success(request, "Successfully Created request at date %s at time %s!"%(task.date,task.time))
+
 		return redirect("request_list")
 	context = {
 	"form": form,
+	"tasker": tasker,
 	}
 	return render(request, 'request_form.html', context)
 
@@ -139,7 +150,7 @@ def request_list(request):
 	if not request.user.is_tasker:
 		return redirect("task_list")
 # filter the request by the current tasker id (requests that had been sent to this particular tasker) 
-	reqs = Task_Request.objects.filter(tasker=request.user.tasker)
+	reqs = Task_Request.objects.filter(tasker=request.user.is_authenticated)
 	paginator = Paginator(reqs, 5) # Show 5 requests per page
 
 	page = request.GET.get('page')
@@ -198,7 +209,7 @@ def task_list(request):
 		return redirect('request_list')
 # filter the request by the current user id
 # doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
-	reqs= Task_Request.objects.filter(user=request.user.is_authenticated)
+	reqs= Task_Request.objects.filter(user=request.user)
 	paginator = Paginator(reqs, 5) # Show 5 requests per page
 	page = request.GET.get('page')
 	reqs = paginator.get_page(page)
@@ -215,21 +226,10 @@ def task_list(request):
 	
 	}
 	return render(request,'task_list.html',context)
-# notification request
-# def get_task_request(request):
-#     task_request = Task_Request.objects.filter(user=request.user.is_authenticated)
-#     data = {
-#         "notifictions":task_request,
-#     }
-#     return JsonResponse(data, safe=False)
 
-# first, once the Task_Request object is saved(Submitted) by the user. The tasker gets a notification
-#  api url to make an ajax (counter) on the bell(notification) icon in the navbar/for the tasker
-# for tasker notification
-def tasker_notification(request):
+def tasker_notification(request,tasker_id):
 	# main = request.user
 	reqs = Notification.objects.all()
-	
 # filter the request by the current user id
 # doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
 	context={
@@ -238,36 +238,14 @@ def tasker_notification(request):
 	}
 	return render(request,'tasker_notification.html',context)
 
-# mark_asread
-def tasker_notifications(request, pk):
-	instance = Notification.objects.get(pk=pk)
+def tasker_notification_list(request):
+	reqs = Notification.objects.all()
 
-	context = {
-	"instance": instance,
-
-	}
-	return render(request,'tasker_notifications.html',context)
-
-# User notification if the tasker accepts the request, the User gets a notification for the specific request
-# list of accepted/denied requests
-def user_notification(request):
-
-# filter the request by the current user id
-# doesn't show the whole list of objects, it only displays 3 pages and 15 objects in total
-	reqs= Notification.objects.filter(user=request.user.is_authenticated)
 	context={
 	'request_list': reqs,
 	
 	}
-	return render(request,'user_notification.html',context)
+	return render(request,'tasker_notifications.html',context)
 
-def user_notifications(request,pk):
-	instance = Notification.objects.get(pk=pk)
-
-	context = {
-	"instance": instance,
-
-	}
-	return render(request,'user_notifications.html',context)
 
 

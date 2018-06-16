@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'datetimewidget',
     'main',
     'users',
     'api',
@@ -62,7 +63,9 @@ REQUEST_TAGS={
     DENIED_REQUEST : 'REQUEST_REJECTED',
 
 }
-
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 TEMPLATE_CONTEXT_PROCESSORS ={
    'django.contrib.auth.context_processors.auth',
@@ -80,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
 ]
 
 ROOT_URLCONF = 'rabbit_clone.urls'
@@ -147,7 +151,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

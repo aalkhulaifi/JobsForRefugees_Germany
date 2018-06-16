@@ -9,12 +9,10 @@
 	    margin: auto;
 	    text-align: center;
 	}
-
 	.title {
 	    color: grey;
 	    font-size: 18px;
 	}
-
 	button {
 	    border: none;
 	    outline: 0;
@@ -30,15 +28,12 @@
 </style>
 	<style type="text/css">
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
 f
 /****** Style Star Rating Widget *****/
-
 .rating { 
   border: none;
   float: left;
 }
-
 .rating > input { display: none; } 
 .rating > label:before { 
   margin: 5px;
@@ -47,12 +42,10 @@ f
   display: inline-block;
   content: "\f005";
 }
-
 .rating > .half:before { 
   content: "\f089";
   position: absolute;
 }
-
 .rating > label { 
   color: #ddd; 
  float: right; 
@@ -63,24 +56,23 @@ f
     margin-right: auto;
     width: 50%;
 }
-
 /***** CSS Magic to Highlight Stars on Hover *****/
-
 .rating > input:checked ~ label, /* show gold star when clicked */
 .rating:not(:checked) > label:hover, /* hover current star */
 .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
-
 .rating > input:checked + label:hover, /* hover current star when changing rating */
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 </style>
 <br>
+{% for instance in request_list %}
+					{% if instance.notification.status == 'Pending' %}
 
 <div class="card">
-		
-	<h4 class="card-title">From:{{instance.sender}}</h4>
-	<p class="card-title">To:{{ instance.notification.description }}</p>
+
+	<h4 class="card-title">From:{{instance.notification.user}}</h4>
+	<p class="card-title">To:{{ instance.user }}</p>
 	<p class="card-text">Date:{{instance.notification.date}}</p>
 	<p class="card-text">Date:{{instance.notification.time}}</p>
 	<p class="card-text">contact number:{{instance.notification.contact_number}}</p>
@@ -101,27 +93,17 @@ f
 				    <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
 				</fieldset>
 			</div>
-			</div>
+
+	</div>
 	<div>
-       	{% if request.user.is_tasker %}
-
-			<a href="{% url 'deni' request_id=instance.id %}" class="btn btn-outline-info btn-lg">Deny</a>
-			{% if status == true %}
-
-			<a href="{% url 'accept' request_id=instance.id %}" class="btn btn-outline-info btn-lg">Accept</a>
-
-			{% endif %}	
-	    {% endif %}
-			{% if instance.status == True %}
-
-      	{% if not request.user.is_tasker %}
-			{#  proceed to a Billing page #} 
-
-			<a href="#" class="btn btn-outline-info btn-lg">Book a Task</a>
-	    {% endif %}
-	    {% endif %}
+   
 	</div>
 	<br>
 </div>
 <br>
+	    {% endif %}
+
+	{% endfor %}
+
+
 {% endblock content %}
