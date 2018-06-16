@@ -9,6 +9,8 @@ from users.models import Tasker
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
+	if request.user.is_tasker:
+		return redirect("task_list")
 	form = TaskerSearch()
 	taskers = Tasker.objects.none()
 	categories = request.GET.get('categories')

@@ -16,20 +16,18 @@
 <br>
 <br>
 
-    <section class="card">
-      <div class="container">
+<section class="card">
+  <div class="container">
         <div class="row">
           <div class="col-sm-12 text-center">
-      
-
-      <ul class="dropdown">
-  <form action="{% url 'list'%}" >
-    {{form|crispy}}
-      <input type="submit" class="btn btn-outline-info my-2 my-sm-0" value='Search'>
-      </form>
-      </ul>
-</div>
-</div>
+            <ul class="dropdown">
+                <form action="{% url 'list'%}" >
+                {{form|crispy}}
+                <input type="submit" class="btn btn-outline-info my-2 my-sm-0" value='Search'>
+                </form>
+            </ul>
+   </div>
+  </div>
 </div>
 </section>
 {% endblock content %}
