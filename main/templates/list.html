@@ -5,7 +5,7 @@
 <style type="text/css">
 	  .card {
 	    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.22);
-	    max-width: 344px;
+	    max-width: 354px;
 	    margin: auto;
 	    text-align: center;
 	}
@@ -37,11 +37,11 @@
 	<div class="card">
 	  <img src="{{tasker.profile_picture.url}}" alt="" style="width:100%">
 	  <h3>{{tasker.user}}</h3>
-	  <p class="title">Profession:{{tasker.profession}}</p>
-	  <p>Rate:{{tasker.rate}}</p>
-	   <p>Skills: {% for skill in tasker.categories.all %} -{{skill}}{% endfor %}</p>
-	  <p>areas:{% for area in tasker.areas.all %} -{{area}}{% endfor %}</p>
-	  <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></p>
+	  <h5 class="title">Profession:{{tasker.profession}}</h5>
+	  <h6>Rate:{{tasker.rate}}</h6>
+	   <h6>Skills: {% for skill in tasker.categories.all %} -{{skill}}{% endfor %}</h6>
+	  <h6>Areas:{% for area in tasker.areas.all %} -{{area}}{% endfor %}</h6>
+	  <h6><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'tasker_profile_detail' tasker.id %}">Contact</a></h6>
 	</div>
 	{% endfor %}
 {% endfor %}

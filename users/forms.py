@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from .models import Tasker, Task_Request, Notification
-from django.contrib.admin.widgets import AdminDateWidget
 from django.forms.fields import DateField
 from django.contrib.admin import widgets
 from django.contrib.auth.forms import UserCreationForm

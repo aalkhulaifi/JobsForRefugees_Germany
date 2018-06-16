@@ -41,10 +41,10 @@
     <img class="card-img-top img-fluid" src="{{user.profile_picture.url}}">
 </div>
     <h3>{{user.user}}</h3>
-    <p class="title">Profession:{{user.profession}}</p>
-    <p>Rate:{{user.rate}}</p>
-     <p>Skills: {% for skill in user.categories.all %} -{{skill}}{% endfor %}</p>
-    <p>areas:{% for area in user.areas.all %} -{{area}}{% endfor %}</p>
+    <h5 class="title">Profession:{{user.profession}}</h5>
+    <h6>Rate:{{user.rate}}</h6>
+     <h6>Skills: {% for skill in user.categories.all %} -{{skill}}{% endfor %}</h6>
+    <h6>areas:{% for area in user.areas.all %} -{{area}}{% endfor %}</h6>
     <p><a class="btn btn-outline-info my-2 my-sm-0" href="{% url 'create_request' user.id %}">Send a Request</a></p>
   </div>
   <br>

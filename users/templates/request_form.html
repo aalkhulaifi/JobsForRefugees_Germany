@@ -3,15 +3,53 @@
 {% block title  %} Send Request {% endblock  %}
 {% load crispy_forms_tags %}
 {% block content %}
+        {% include "untitled.html" %}
 
 <div class="container-fluid">
-	<h3>From:{{user}}</h3>
-  <form action="{% url 'create_request' tasker.id %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
- {{form|crispy}}
-         <input type="submit" value="Create" class="btn btn-outline-info btn-lg">
+    <div class="had-container">
+        <style type="text/css">
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        margin: auto;
+    }
+    .title {
+        color: grey;
+        font-size: 18px;
+    }
+    button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+    
 
-    </form>
+</style>
+ <br>
+    <div class="card">
+      <div class="parallax-container logueo">
+        <h4 class="text-center">From:{{user}}</h4>
+            <div class="row py-5 justify-content-center  align-items-center">
+       
+                <form action="{% url 'create_request' tasker.id %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                         {{form|crispy}}
+
+                         <input type="submit" value="Create" class="btn btn-outline-info btn-lg">
+                </form>
+            </div>
+       </div>
+     </div>
+  </div>
 </div>
-
+ <br>
+<br>
+<br> 
 {% endblock content %}
