@@ -79,7 +79,11 @@ f
 
 <div class="card">
 	<h4 class="card-title">From:{{instance.user}}</h4>
+	{% if request.user.is_tasker %}
+
 	<p class="card-title">To:{{instance.notification.user}}</p>
+	{% endif %}	
+	<p class="card-title">To:{{instance.tasker.user}}</p>
 	<p class="card-text">Date:{{instance.date}}</p>
 	<p class="card-text">Time{{instance.time}}</p>
 	<p class="card-text">contact number:{{instance.contact_number}}</p>
