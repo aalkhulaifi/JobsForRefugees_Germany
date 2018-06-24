@@ -2,8 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from main.models import Category, Area
 from django.utils import timezone
-from django.dispatch import receiver
-from django.db.models.signals import post_save, pre_save
 
 class User(AbstractUser):
 	email = models.EmailField(unique=True)
