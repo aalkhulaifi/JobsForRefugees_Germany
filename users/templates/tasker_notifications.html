@@ -113,7 +113,7 @@ f
   function notification_badge(){
     $.ajax({
       type:"GET",
-      url:"{% url 'notification_badge' notification_id=instance.id %}",
+      url:"{% url 'notification_badge' user.id %}",
       error: function(){
         alert("Something went wrong!")
       },

@@ -240,7 +240,7 @@ def tasker_notification_list(request):
 
 # notification badge
 def notification_badge(request, notification_id):
-	notification = Notification.objects.get(id=notification_id)
+	notification = Task_Request.objects.get(id=notification_id)
 
 	impressed, created = Notification.objects.get_or_create(tasker=request.user, notification=notification)
 	if created:
