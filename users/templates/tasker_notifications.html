@@ -78,10 +78,7 @@ f
 	<p class="card-text">contact number:{{instance.notification.contact_number}}</p>
 	<p class="card-text">Description:{{instance.notification.description}}</p>
 	 <p class="card-text" ><b>Status:</b>{{instance.notification.status}}</p>
-	 <button class="btn" onclick="notification_badge()">
-            <div id="notification-count">{{count}}</div>
-            <i id="notification-badge" class="fa fa-bell {% if notification %}text-info{% endif %}" aria-hidden="true"></i>
-          </button>
+
       	<div class="card-item">
         	<div class="text-center">
         		<fieldset class="rating">
@@ -106,7 +103,10 @@ f
 </div>
 <br>
 	    {% endif %}
-
+ <button class="btn" onclick="notification_badge()">
+            <div id="notification-count">{{instance.count}}</div>
+            <i id="notification-badge" class="fa fa-bell {% if notification %}text-info{% endif %}" aria-hidden="true"></i>
+          </button>
 	{% endfor %}
  
 <script>
