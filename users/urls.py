@@ -19,5 +19,6 @@ urlpatterns = [
     path('deni/<int:request_id>/', views.deni_request, name = 'deni' ),
     path('notification/<int:notification_id>/', views.notification_badge, name = 'notification_badge' ),
     path('billing/', views.billing_list, name = 'billing' ),
+    # path('rating/', views.rating, name = 'rating' ),
 
 ]

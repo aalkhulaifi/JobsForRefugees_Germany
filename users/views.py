@@ -258,8 +258,7 @@ def notification_badge(request, notification_id):
 	return JsonResponse(context, safe=False)
 
 def billing_list(request):
-	if not request.user.is_tasker:
-		return redirect("task_list")
+
 	bill = Billing.objects.all()
 	paginator = Paginator(bill, 5) # Show 5 requests per page
 
@@ -270,3 +269,4 @@ def billing_list(request):
 	}
 	return render(request,'bills_list.html',context)
 
+# rating view 

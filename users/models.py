@@ -28,10 +28,10 @@ class Task_Request(models.Model):
 	contact_number = models.PositiveIntegerField(null=True, blank=True)
 	description = models.TextField()
 	TASK_CHOICES = (
-        ('Approved', 'Approved'),
-        ('Denied', 'Denied'),
-        ('Pending', 'Pending'),
-    )
+		('Approved', 'Approved'),
+		('Denied', 'Denied'),
+		('Pending', 'Pending'),
+	)
 	status = models.CharField(max_length=20, choices=TASK_CHOICES, default='Pending')
 
 
@@ -47,12 +47,18 @@ class Notification(models.Model):
 	def __str__(self):
 		return '{}'.format(self.user)
 
+# # rating of the taskers by the users
+# class Rating(models.Model):
+# 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+# 	rating = models.ForeignKey(Tasker, on_delete=models.CASCADE)
+# 	def __str__(self):
+# 		return self.user
 
 
 
 class Billing(models.Model):
-    name = models.ForeignKey(User, on_delete=models.CASCADE)
-    # the price should include the tasker rate in Tasker model
-    price = models.ForeignKey(Tasker, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.name
+	name = models.ForeignKey(User, on_delete=models.CASCADE)
+	# the price should include the tasker rate in Tasker model
+	price = models.ForeignKey(Tasker, on_delete=models.CASCADE)
+	def __str__(self):
+		return self.name
