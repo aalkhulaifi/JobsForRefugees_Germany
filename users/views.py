@@ -238,4 +238,21 @@ def tasker_notification_list(request):
 	return render(request,'tasker_notifications.html',context)
 
 
+# notification badge
+def notification_badge(request, notification_id):
+	notification = Task_Request.objects.get(id=notification_id)
 
+	impressed, created = Notification.objects.get_or_create(user=request.user, notification=notification)
+	if created:
+		action="notification"
+	else:
+		action="notification_deleted"
+		impressed.delete()
+
+	notification_Notification_count = Notification.objects.filter(notification=notification).count()
+
+	context = {
+		"action":action,
+		"count":notification_Notification_count
+	}
+	return JsonResponse(context, safe=False)

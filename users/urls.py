@@ -17,5 +17,6 @@ urlpatterns = [
     path('create/<int:tasker_id>/', views.create_request, name = 'create_request' ),
     path('accept/<int:request_id>/', views.accepted_request, name = 'accept' ),
     path('deni/<int:request_id>/', views.deni_request, name = 'deni' ),
+    path('notification/<int:notification_id>/', views.notification_badge, name = 'notification_badge' ),
 
 ]

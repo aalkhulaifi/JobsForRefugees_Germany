@@ -104,6 +104,31 @@ f
 	    {% endif %}
 
 	{% endfor %}
-
+ <button class="btn" onclick="notification_badge()">
+            <div id="notification-count">{{count}}</div>
+            <i id="notification-badge" class="fa fa-bell {% if notification %}text-info{% endif %}" aria-hidden="true"></i>
+          </button>
+<script>
+  function notification_badge(){
+    $.ajax({
+      type:"GET",
+      url:"{% url 'notification_badge' notification_id=instance.id %}",
+      error: function(){
+        alert("Something went wrong!")
+      },
+      success: function(data){
+        $("#notification-count").text(data.count);
+        if(data.action==="notification")
+        {
+          $("#notification-badge").addClass("text-info");
+        }
+        else
+        {
+          $("#notification-badge").removeClass("text-info");
+        }
+      },
+    });
+  }
+</script>
 
 {% endblock content %}
