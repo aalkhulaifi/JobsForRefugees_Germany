@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+   Billss List
+{% endblock title %}
+{% block content %}
+<h1>Final Step:</h1>
+<style type="text/css">
+	  .card {
+	    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	    max-width: 300px;
+	    margin: auto;
+	    text-align: center;
+	}
+
+	.title {
+	    color: grey;
+	    font-size: 18px;
+	}
+
+	button {
+	    border: none;
+	    outline: 0;
+	    display: inline-block;
+	    padding: 8px;
+	    color: white;
+	    background-color: #000;
+	    text-align: center;
+	    cursor: pointer;
+	    width: 100%;
+	    font-size: 18px;
+	}
+	</style>
+	<style type="text/css">
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+f
+/****** Style Star Rating Widget *****/
+
+.rating { 
+  border: none;
+  float: left;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+</style>
+{% for user in billing_list %}
+        <br>
+    <div class="card">
+		<h4 class="card-title">To:{{user.tasker}}</h4>
+		<p class="card-title">Price:{{user.price.rate}}</p>
+
+	<div>
+{% endfor %}
+<footer>
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if request_list.has_previous %}
+	            <a href="?page=1">&laquo; first</a>
+	            <a href="?page={{ request_list.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ request_list.number }} of {{ request_list.paginator.num_pages }}.
+	        </span>
+
+	        {% if request_list.has_next %}
+	            <a href="?page={{ request_list.next_page_number }}">next</a>
+	            <a href="?page={{ request_list.paginator.num_pages }}">last &raquo;</a>
+	        {% endif %}
+	    </span>
+	</div>
+</footer>
+{% endblock content %}
+ 

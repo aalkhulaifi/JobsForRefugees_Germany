@@ -52,3 +52,9 @@ class Notification(models.Model):
 
 
 
+class Billing(models.Model):
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+    # the price should include the tasker rate in Tasker model
+    price = models.ForeignKey(Tasker, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name

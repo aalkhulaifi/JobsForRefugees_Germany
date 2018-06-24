@@ -18,5 +18,6 @@ urlpatterns = [
     path('accept/<int:request_id>/', views.accepted_request, name = 'accept' ),
     path('deni/<int:request_id>/', views.deni_request, name = 'deni' ),
     path('notification/<int:notification_id>/', views.notification_badge, name = 'notification_badge' ),
+    path('billing/', views.billing_list, name = 'billing' ),
 
 ]

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse, Http404
 from .forms import Signup ,Login, TaskerSignup, TaskerEditProfileForm, UserEditProfileForm,Task_RequestForm
 from django.contrib.auth import login , logout,authenticate
-from .models import Tasker, User, Task_Request,Notification
+from .models import Tasker, User, Task_Request,Notification, Billing
 from django.conf import settings
 from django.contrib import messages
 from main import views
@@ -256,3 +256,17 @@ def notification_badge(request, notification_id):
 		"count":notification_Notification_count
 	}
 	return JsonResponse(context, safe=False)
+
+def billing_list(request):
+	if not request.user.is_tasker:
+		return redirect("task_list")
+	bill = Billing.objects.all()
+	paginator = Paginator(bill, 5) # Show 5 requests per page
+
+	page = request.GET.get('page')
+	bill = paginator.get_page(page)
+	context={
+	'billing_list': bill,
+	}
+	return render(request,'bills_list.html',context)
+
