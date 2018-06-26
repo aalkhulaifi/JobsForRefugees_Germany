@@ -24,7 +24,7 @@ To run this project in your development machine, follow these steps:
 
 6. Fork this repo and clone your fork:
 
-    `git clone https://github.com/openshift/django-ex.git`
+    `https://github.com/aalkhulaifi/JobsforRefugees_Germany.git`
 
 7. Install dependencies:
 
