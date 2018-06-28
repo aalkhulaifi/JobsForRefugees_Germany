@@ -1,0 +1,175 @@
+void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}#include <QTRSensors.h>
+
+#define sagtabanhiz 200
+#define soltabanhiz 200
+//#define sagmotoryon  13 //right
+//#define sagmotorpwmpin 11
+//#define dirB1 12 //left
+//#define solmotorpwmpin 3
+int sensor=11;
+#define pwmA 3 
+#define dirA1 4 //right
+#define dirA2 5
+
+#define pwmB 9
+#define dirB1 6 //left
+#define dirB2 7
+
+#define stby 10
+
+QTRSensorsRC qtrrc((unsigned char[]) { A0, A1, A2, A3 , A4, A5, 1,2} ,8, 2500, QTR_NO_EMITTER_PIN); 
+unsigned int sensorValues[8];
+
+void setup()
+{
+      
+      delay(2000);
+      pinMode(sensor,INPUT);
+      pinMode(pwmA,OUTPUT);
+      pinMode(dirA1,OUTPUT);
+      pinMode(dirA2,OUTPUT);
+      
+      pinMode(pwmB,OUTPUT);
+      pinMode(dirB1,OUTPUT);
+      pinMode(dirB2,OUTPUT);
+      
+      pinMode(stby,OUTPUT);
+      digitalWrite(stby,1);
+      int i;
+      digitalWrite(13,HIGH);     
+
+     for (int i = 0; i < 200; i++)
+     { 
+         if ( 0 <= i && i < 5   )  hafifsagadon();       
+         if ( 5 <= i && i  < 15   )  hafifsoladon(); 
+         if ( 15 <= i && i < 25   )  hafifsagadon();       
+         if ( 25 <= i && i < 35   )  hafifsoladon(); 
+         if ( 35 <= i && i < 45   )  hafifsagadon();       
+         if ( 45 <= i && i < 55  )  hafifsoladon(); 
+         if ( 55 <= i && i < 65   )  hafifsagadon();       
+         if ( 65 <= i && i < 75  )  hafifsoladon();
+         if ( 75 <= i && i < 85   )  hafifsagadon();       
+         if ( 85 <= i && i < 90  )  hafifsoladon();
+  
+         if ( i >= 90  )  {frenle(); delay(5);}
+        
+       qtrrc.calibrate(); 
+       delay(4);
+      } 
+    digitalWrite(13,LOW);
+    delay(2000);
+//    motorkontrol(200,0);
+//    delay(5000);
+//    motorkontrol(0,200);
+//    delay(5000);
+//     motorkontrol(-200,-200);
+//    delay(5000);
+    Serial.begin(9600);
+} 
+
+int sonhata = 0;
+int integral=0;
+
+float Kp = 0.2 ;
+float Kd = 1.16;
+float Ki=0.002;
+
+int sagmotorpwm = 0;
+int solmotorpwm = 0;
+int zemin=0;
+
+void loop()
+{ 
+
+
+
+
+
+  // Pozisyon hesabı QTRlibrary tarafından yaptırılıyor
+  unsigned int sensorValues[8];   
+  unsigned int position = qtrrc.readLine(sensorValues,1,zemin); 
+  int hata = position-3500;
+
+  if ( sensorValues[0]<100 && sensorValues[7]<100  ) { zemin=0;  }//white ground - black line
+  if ( sensorValues[0]>500 && sensorValues[7]>500  ) { zemin=1;  }//black ground - white line
+
+  //////////// motorlara verilecek hız düzeltme oran hesabı
+ integral=integral+hata;
+  int duzeltmehizi = Kp * hata + Kd*(hata - sonhata)+ Ki*integral;
+  sonhata = hata;
+    
+   
+  //////////// Motorlara uygulanacak kesin hız ayarları
+   sagmotorpwm = sagtabanhiz + duzeltmehizi  ;
+   solmotorpwm = soltabanhiz - duzeltmehizi  ;
+  
+   sagmotorpwm = constrain(sagmotorpwm, -sagtabanhiz, sagtabanhiz+10); ///// Burada motorlara uygulanacak PWM değerlerine sınırlandırma getirilmiştir.
+   solmotorpwm = constrain(solmotorpwm, -soltabanhiz, soltabanhiz+10); 
+   
+   if ( sensorValues[0]<100 && sensorValues[1]<100 && sensorValues[2]<100 && sensorValues[3]<100 
+  && sensorValues[4]<100 && sensorValues[5]<100 && sensorValues[6]<100 && sensorValues[7]<100 )
+   { motorkontrol(200,200);}
+   else
+   {motorkontrol(sagmotorpwm,solmotorpwm);}
+  //   Seri monitörde hata, sağ ve sol motor hız değerlerini gösternek için alttaki satırı aktif yapınız
+  //   Serial.print(hata);  Serial.print(" "); Serial.print(sagmotorpwm); Serial.print(" "); Serial.println(solmotorpwm); delay(100);  
+
+
+  Serial.println( sensorValues[0]);Serial.print( "  ");
+  Serial.print( sensorValues[1]);Serial.print( "  ");
+  Serial.print( sensorValues[2]);Serial.print( "  ");
+  Serial.print( sensorValues[3]);Serial.print( "  ");
+  Serial.print( sensorValues[4]);Serial.print( "  ");
+  Serial.print( sensorValues[5]);Serial.print( "  ");
+  Serial.print( sensorValues[6]);Serial.print( "  ");
+  Serial.print( sensorValues[7]);Serial.print( "  ");
+  
+  
+
+
+
+
+}
+// Motor kontrol alt programı
+void motorkontrol(int sagmotorpwm, int solmotorpwm){
+
+  if(sagmotorpwm<=0) {
+      sagmotorpwm=abs(sagmotorpwm);
+      digitalWrite(dirA1, LOW);
+      digitalWrite(dirA2, HIGH);
+      analogWrite(pwmA, sagmotorpwm);
+    }
+  else {
+      digitalWrite(dirA1, HIGH);
+      digitalWrite(dirA2, LOW);
+      analogWrite(pwmA, sagmotorpwm);
+  }
+  if(solmotorpwm<=0) {
+     solmotorpwm=abs(solmotorpwm);
+     digitalWrite(dirB1, LOW);
+     digitalWrite(dirB2, HIGH);
+     analogWrite(pwmB, solmotorpwm);
+    }
+   else {
+    digitalWrite(dirB1, HIGH);
+    digitalWrite(dirB2, LOW);
+    analogWrite(pwmB, solmotorpwm);
+   }
+}
+
+
+void frenle(){motorkontrol(0,0);}
+
+void hafifsagadon(){motorkontrol(-100,100);}
+
+void hafifsoladon(){motorkontrol(100,-100);}
+
+​
