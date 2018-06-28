@@ -10,10 +10,6 @@ This is a Django 2.0 project. use the following steps:
 4. `django-admin startproject project .`
 5. `./manage.py startapp rabbit_clone`.
 
-From this initial state you can:
-
-* install more Python libraries and add them to the `requirements.txt` file
-
 ## Local development
 
 To run this project in your development machine, follow these steps:
