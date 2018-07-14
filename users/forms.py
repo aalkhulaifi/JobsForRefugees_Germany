@@ -4,7 +4,27 @@ from .models import Tasker, Task_Request, Notification
 from django.forms.fields import DateField
 from django.contrib.admin import widgets
 from django.contrib.auth.forms import UserCreationForm
+import re
+from datetimewidget.widgets import DateTimeWidget
+
+from django.core.exceptions import ValidationError
 User = get_user_model()
+
+class GermanMobileField(forms.Field):
+	def validate(self, value):
+		if value != "":
+			german_mobile = re.compile('^(4|9)(\d{12})$')
+			german_mobile_match = german_mobile.match(value)
+			if german_mobile_match == None:
+				raise exceptions.ValidationError(_('Invalid Number: %(value)s'),
+					code='invalid',
+					params={'value': 'Please enter a German Mobile number'},
+				)
+			else:
+				return value
+		else:
+			return value
+	   
 
 class Signup(forms.ModelForm):
 	class Meta:

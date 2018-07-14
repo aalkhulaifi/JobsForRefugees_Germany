@@ -38,10 +38,10 @@ class Task_Request(models.Model):
 
 class Notification(models.Model):
 	# ForeignKey to the user model
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	tasker = models.ForeignKey(Tasker, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+	tasker = models.ForeignKey(Tasker, on_delete=models.CASCADE,null=True)
 	notification = models.ForeignKey(Task_Request, on_delete=models.CASCADE)
-	timestamp = models.DateTimeField(auto_now_add=True)
+	timestamp = models.DateTimeField(auto_now=True)
 
 	
 	def __str__(self):
